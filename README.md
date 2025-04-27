@@ -28,8 +28,8 @@ Nosso objetivo é **aumentar a transparência** e ajudar alunos a tomarem **deci
 
 - **Linguagem**: Python  
 - **Backend**: Django  
-- **Frontend**: HTML + Tailwind CSS  
-- **Banco de Dados**: PostgreSQL
+- **Frontend**: HTML + CSS  
+- **Banco de Dados**: SQLite
 
 ---
 

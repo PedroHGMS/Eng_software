@@ -44,6 +44,8 @@ class Review(models.Model):
     # Cada review deve ter um usuário sem ser admin
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     
+    def __str__(self):
+        return f"Review de {self.usuario} para {self.professor} em {self.disciplina}"
 
 
 

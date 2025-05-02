@@ -31,6 +31,10 @@
     <main class="container content-area">
         <h2>Reviews do Professor {{ professor.name }}</h2>
 
+        {% if professor.universidade %} {# ESTA VERIFICAÇÃO É FUNDAMENTAL #}
+            <p class="professor-university"><i class="fas fa-university"></i> {{ professor.universidade.nome }}</p>
+        {% endif %}
+
         {# --- Seção de Estatísticas (agora sempre reflete o total) --- #}
         {% if total_reviews > 0 %}
             <section class="statistics-section">

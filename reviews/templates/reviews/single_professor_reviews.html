@@ -1,144 +1,278 @@
 {% load static %}
-<!-- Create a page with all the info from all reviews listed in a list -->
- <!-- 
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.exceptions import ValidationError
-from django.contrib.auth.models import User
-
-# Create your models here.
-class Review(models.Model):
-    # Dificuldade, Qualidade, Descrição, Nota obtida, Presença e Período
-    
-    # Dificuldade só pode ser um desses valores [1, 2, 3, 4, 5]. 
-    dificuldade = models.IntegerField(null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
-
-    # Qualidade é um des valores [0, 1, 2, 3, 4, 5]
-    qualidade = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(5)])
-
-    # Descrição é um texto livre
-    descricao = models.TextField(null=False)
-
-    # Nota obtida é um inteiro de 0 a 100
-    nota_obtida = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(100)])
-
-    # Presença é um booleano
-    presenca = models.BooleanField(null=False, default=False)
-
-    # Período deve estar no formato "ano/semestre", exemplo: "2023/1" ou "2023/2" ou "2024/2". Use regex para validar o formato.
-    def validate_periodo(value):
-        import re
-        pattern = r'^\d{4}/[1-2]$'
-        if not re.match(pattern, value):
-            raise ValidationError(
-                f'{value} não é um período válido. O formato deve ser "ano/semestre", exemplo: "2023/1" ou "2023/2" ou "2024/2".'
-            )
-    periodo = models.CharField(max_length=7, null=False, validators=[validate_periodo])
-
-    # Relacionamentos com a review. Professor, Disciplina e Usuário.
-    # Importa o professor
-
-    # Cada review deve ter um professor
-    professor = models.ForeignKey('universities.Professor', on_delete=models.CASCADE, null=False, blank=False)
-
-    # Cada review deve ter uma disciplina
-    disciplina = models.ForeignKey('universities.disciplina', on_delete=models.CASCADE, null=False, blank=False)
-
-    # Cada review deve ter um usuário sem ser admin
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    
-    def __str__(self):
-        return f"Review de {self.usuario} para {self.professor} em {self.disciplina}"
-
-
-
-
-
- -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reviews</title>
-    <link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">
-</html>
+    <title>Reviews do Professor {{ professor.name }}</title>
+    <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
 <body>
-    <header>
-        <h1>Reviews</h1>
-        <nav>
-            <!-- Button Home -->
-            <ul>
-                <li><a href="{% url 'universities:all_professors' %}">All Professores</a></li>
-
-            </ul>
-        </nav>
+    <header class="site-header">
+        <div class="container">
+            <h1>ProfReview - Review de Professores</h1>
+            <nav>
+                <ul class="nav-list">
+                    {# Link existente para Todos os Professores #}
+                    <li><a href="{% url 'universities:all_professors' %}" class="nav-link"><i class="fas fa-home"></i> Todos os Professores</a></li>
+    
+                    {# NOVOS LINKS (PLACEHOLDERS) #}
+                    <li><a href="#" class="nav-link"><i class="fas fa-search"></i> Buscar</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-user"></i> Usuário</a></li>
+                    {# FIM DOS NOVOS LINKS #}
+    
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <h2>Lista das Reviews do professor {{ professor.name }}</h2>
-        {% if reviews %}
-            <table>
-                <thead>
-                    <tr>
-                        <th>Dificuldade</th>
-                        <th>Qualidade</th>
-                        <th>Descrição</th>
-                        <th>Nota Obtida</th>
-                        <th>Presença</th>
-                        <th>Período</th>
-                        <th>Professor</th>
-                        <th>Disciplina</th>
-                        {% if user.is_authenticated %}
-                            <th>Ações</th>
-                        {% endif %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for review in reviews %}
-                        <tr>
-                            <td>{{ review.dificuldade }}</td>
-                            <td>{{ review.qualidade }}</td>
-                            <td>{{ review.descricao }}</td>
-                            <td>{{ review.nota_obtida }}</td>
-                            <td>{{ review.presenca|yesno:"Sim,Não" }}</td>
-                            <td>{{ review.periodo }}</td>
-                            <td>{{ review.professor.name }}</td> <!-- Assuming professor has a name field -->
-                            <td>{{ review.disciplina.nome }}</td> <!-- Assuming disciplina has a name field -->
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <main class="container content-area">
+        <h2>Reviews do Professor {{ professor.name }}</h2>
 
-            <!-- Pagination -->
-            {% if is_paginated %}
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if page_obj.has_previous %}
-                            <a href="?page=1">&laquo; primeira</a>
-                            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+        {# --- Seção de Estatísticas (agora sempre reflete o total) --- #}
+        {% if total_reviews > 0 %}
+            <section class="statistics-section">
+                <h3>Visão Geral das Estatísticas <span class="total-count">({{ total_reviews }} reviews)</span></h3>
+
+                <div class="stats-grid">
+                    <div class="avg-stats">
+                        <h4><i class="fas fa-chart-bar"></i> Médias</h4>
+                        {% if averages.qualidade__avg is not None %}
+                            <p>Qualidade Média: <strong>{{ averages.qualidade__avg|floatformat:2 }} / 5</strong></p>
+                             <div class="avg-visual-icons">
+                                {% for _ in ""|ljust:avg_quality_icons.full %}
+                                     <i class="fas fa-star star-filled"></i>
+                                {% endfor %}
+                                {% if avg_quality_icons.half %}
+                                     <i class="fas fa-star-half-alt star-filled"></i>
+                                {% endif %}
+                                {% for _ in ""|ljust:avg_quality_icons.empty %}
+                                     <i class="far fa-star star-empty"></i>
+                                {% endfor %}
+                             </div>
+                        {% else %}
+                             <p>Qualidade Média: N/A</p>
                         {% endif %}
 
-                        <span class="current">
-                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
-                        </span>
+                         {% if averages.dificuldade__avg is not None %}
+                            <p>Dificuldade Média: <strong>{{ averages.dificuldade__avg|floatformat:2 }} / 5</strong></p>
+                             <div class="avg-visual-icons">
+                                {% for _ in ""|ljust:avg_difficulty_icons.full %}
+                                     <i class="fas fa-circle difficulty-filled"></i>
+                                {% endfor %}
+                                {% for _ in ""|ljust:avg_difficulty_icons.empty %}
+                                     <i class="far fa-circle difficulty-empty"></i>
+                                {% endfor %}
+                             </div>
 
-                        {% if page_obj.has_next %}
-                            <a href="?page={{ page_obj.next_page_number }}">próxima</a>
-                            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
-                        {% endif %}
-                    </span>
+                         {% else %}
+                             <p>Dificuldade Média: N/A</p>
+                         {% endif %}
+
+                         {% if averages.nota_obtida__avg is not None %}
+                            <p>Nota Média Obtida: <strong>{{ averages.nota_obtida__avg|floatformat:2 }} / 100</strong></p>
+                         {% else %}
+                            <p>Nota Média Obtida: N/A</p>
+                         {% endif %}
+                    </div>
+
+                    <div class="distribution-stats">
+                        <h4><i class="fas fa-chart-pie"></i> Distribuição de Notas</h4>
+
+                        <div class="dist-list">
+                            <h5>Notas de Qualidade (1-5)</h5>
+                            {% if quality_distribution %}
+                                <div class="histogram">
+                                {% for item in quality_distribution %}
+                                    <div class="histogram-row">
+                                        <span class="score-label">{{ item.score }}:</span>
+                                        <div class="bar-container">
+                                            <div class="bar" style="width: {{ item.percentage|floatformat:0 }}%;"></div>
+                                        </div>
+                                        <span class="count-label">{{ item.count }} reviews</span>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>Nenhum dado de distribuição de qualidade disponível.</p>
+                            {% endif %}
+                        </div>
+
+                         <div class="dist-list">
+                            <h5>Notas de Dificuldade (1-5)</h5>
+                             {% if difficulty_distribution %}
+                                <div class="histogram">
+                                {% for item in difficulty_distribution %}
+                                     <div class="histogram-row">
+                                        <span class="score-label">{{ item.score }}:</span>
+                                        <div class="bar-container">
+                                             <div class="bar" style="width: {{ item.percentage|floatformat:0 }}%;"></div>
+                                        </div>
+                                        <span class="count-label">{{ item.count }} reviews</span>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            {% else %}
+                                <p>Nenhum dado de distribuição de dificuldade disponível.</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            {% endif %}
-        {% else %}
-            <p>Nenhum review encontrado.</p>
+            </section>
         {% endif %}
+         {# --- Fim Seção de Estatísticas --- #}
+
+
+        {# --- Seção de Interatividade (Filtros, Ordenação, Botão Adicionar) --- #}
+        <section class="interactivity-area">
+             {# O FORM envolve os elementos que enviam dados para a view via GET #}
+             {# O JS interceptará o submit e fará uma requisição AJAX #}
+             <form method="get" action="{% url 'reviews:professor_reviews' professor.id %}">
+                 <div class="filter-sort-area">
+                     <div class="filter-options">
+                         <label for="filter-disciplina">Filtrar por Disciplina:</label>
+                         <select id="filter-disciplina" name="disciplina">
+                             <option value="" {% if current_disciplina == '' %}selected{% endif %}>Todas as Disciplinas</option>
+                             {% for disc in disciplinas %}
+                                 <option value="{{ disc.id }}" {% if current_disciplina|slugify == disc.id|slugify %}selected{% endif %}>{{ disc.nome }}</option>
+                             {% endfor %}
+                         </select>
+                         <label for="filter-periodo">Filtrar por Período:</label>
+                         <select id="filter-periodo" name="periodo">
+                             <option value="" {% if current_periodo == '' %}selected{% endif %}>Todos os Períodos</option>
+                              {% for per in periodos %}
+                                  <option value="{{ per }}" {% if current_periodo == per %}selected{% endif %}>{{ per }}</option>
+                              {% endfor %}
+                         </select>
+                     </div>
+                     <div class="sort-options">
+                          <label for="sort-by">Ordenar por:</label>
+                         <select id="sort-by" name="ordenar">
+                             <option value="newest" {% if current_order == 'newest' %}selected{% endif %}>Mais Recente</option>
+                             <option value="quality_desc" {% if current_order == 'quality_desc' %}selected{% endif %}>Qualidade (Maior)</option>
+                              <option value="quality_asc" {% if current_order == 'quality_asc' %}selected{% endif %}>Qualidade (Menor)</option>
+                             <option value="difficulty_desc" {% if current_order == 'difficulty_desc' %}selected{% endif %}>Dificuldade (Maior)</option>
+                              <option value="difficulty_asc" {% if current_order == 'difficulty_asc' %}selected{% endif %}>Dificuldade (Menor)</option>
+                              <option value="grade_desc" {% if current_order == 'grade_desc' %}selected{% endif %}>Nota (Maior)</option>
+                              <option value="grade_asc" {% if current_order == 'grade_asc' %}selected{% endif %}>Nota (Menor)</option>
+                         </select>
+                     </div>
+                     {# Botão de submissão do formulário #}
+                     {# Este botão agora estará na mesma linha que os selects via Flexbox #}
+                      <button type="submit" class="btn btn-secondary"><i class="fas fa-filter"></i></button>
+                 </div>
+             </form>
+              {# Botão Adicionar Review #}
+             <div class="add-review-button">
+                 <a href="#" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Adicionar Review</a>
+             </div>
+        </section>
+        {# --- Fim Seção de Interatividade --- #}
+
+
+        {# --- Seção de Reviews Individuais --- #}
+        <section class="reviews-list">
+             <h3>Reviews Individuais</h3>
+             {# Este é o container que será atualizado pelo JavaScript AJAX #}
+             <div id="reviews-container">
+                 {# O conteúdo inicial desta div é renderizado pelo Django na primeira carga #}
+                 {# E será substituído pelas respostas AJAX subsequentes renderizadas pela partial template #}
+
+                 {% if reviews %}
+                    {# CONTAINER DOS REVIEWS - LAYOUT EMPILHADO #}
+                    <div class="review-items-container reviews-stacked">
+                        {% for review in reviews %}
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <span class="review-quality">
+                                        Qualidade:
+                                        {# Loop para exibir estrelas preenchidas (nota individual) #}
+                                        {% for _ in ""|ljust:review.filled_quality_stars %}
+                                            <i class="fas fa-star star-filled"></i>
+                                        {% endfor %}
+                                        {# Loop para exibir estrelas vazias (nota individual) #}
+                                        {% for _ in ""|ljust:review.empty_quality_stars %}
+                                            <i class="far fa-star star-empty"></i>
+                                        {% endfor %}
+                                         ({{ review.qualidade }}/5)
+                                    </span>
+                                    <span class="review-difficulty">
+                                        Dificuldade:
+                                        {# Loop para exibir círculos preenchidos (nota individual) #}
+                                        {% for _ in ""|ljust:review.filled_difficulty_circles %}
+                                            <i class="fas fa-circle difficulty-filled"></i>
+                                        {% endfor %}
+                                         {# Loop para exibir círculos vazios (nota individual) #}
+                                         {% for _ in ""|ljust:review.empty_difficulty_circles %}
+                                            <i class="far fa-circle difficulty-empty"></i>
+                                        {% endfor %}
+                                         ({{ review.dificuldade }}/5)
+                                    </span>
+                                </div>
+                                <div class="review-description">
+                                    <h4>Descrição:</h4>
+                                    <p>{{ review.descricao }}</p>
+                                </div>
+                                <div class="review-details">
+                                    <p><i class="fas fa-percent"></i> Nota Obtida: <strong>{{ review.nota_obtida }} / 100</strong></p>
+                                    <p><i class="fas fa-clipboard-check"></i> Presença: <strong>{{ review.presenca|yesno:"Sim,Não" }}</strong></p>
+                                    <p><i class="fas fa-calendar-alt"></i> Período: <strong>{{ review.periodo }}</strong></p>
+                                    <p><i class="fas fa-book"></i> Disciplina: <strong>{{ review.disciplina.nome }}</strong></p>
+                                </div>
+                                {% if user.is_authenticated %}
+                                    <div class="review-actions">
+                                         {# TODO: Adicionar URLs reais para Editar e Excluir Reviews #}
+                                         {# Exemplo: <a href="{% url 'reviews:edit_review' review.id %}" title="Editar Review"><i class="fas fa-edit"></i> Editar</a> #}
+                                         {# Exemplo: <a href="{% url 'reviews:delete_review' review.id %}" title="Excluir Review" class="delete-link"><i class="fas fa-trash-alt"></i> Excluir</a> #}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    {# Seção de Paginação #}
+                    {% if is_paginated %}
+                        <div class="pagination">
+                            <span class="step-links">
+                                {# Garante que os links de paginação carreguem os parâmetros GET atuais #}
+                                {# current_order, current_disciplina, current_periodo são passados da view #}
+                                {# O JS irá interceptar cliques nestes links e fazer requisições AJAX #}
+                                {% if page_obj.has_previous %}
+                                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page=1">« primeira</a>
+                                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.previous_page_number }}">anterior</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                                </span>
+
+                                {% if page_obj.has_next %}
+                                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.next_page_number }}">próxima</a>
+                                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.paginator.num_pages }}">última »</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    {% endif %}
+                 {% else %}
+                     {# Mensagem exibida se nenhum review for encontrado NA CARGA INICIAL #}
+                     {# Esta mensagem será substituída pela mensagem da partial template se houver filtro/ordenação que resulte em 0 reviews #}
+                     <p class="no-reviews-message"><i class="fas fa-info-circle"></i> Nenhum review encontrado para este professor.</p>
+                 {% endif %}
+             </div> {# Fim do container #reviews-container #}
+        </section>
+         {# --- Fim Seção de Reviews Individuais --- #}
     </main>
-    <footer>
-        <p>&copy; 2023 Reviews. Todos os direitos reservados.</p>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© {% now "Y" %} ProfReview. Todos os direitos reservados.</p>
+        </div>
     </footer>
+
+    {# Link para o arquivo JavaScript #}
+    {# Este script fará as requisições AJAX para filtro/ordenação e paginação #}
+    <script src="{% static 'reviews/script.js' %}"></script>
 </body>
 </html>
-<!-- 
-    <script src="{% static 'reviews/js/script.js' %}"></script>
- -->

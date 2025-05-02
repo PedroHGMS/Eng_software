@@ -1,0 +1,83 @@
+{% load static %}
+{# Este template parcial renderiza apenas a lista de reviews e a paginação #}
+{# Ele é usado para respostas AJAX #}
+
+{% if reviews %}
+    {# CONTAINER DOS REVIEWS - LAYOUT EMPILHADO #}
+    <div class="review-items-container reviews-stacked">
+        {% for review in reviews %}
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="review-quality">
+                        Qualidade:
+                        {# Loop para exibir estrelas preenchidas (nota individual) #}
+                        {% for _ in ""|ljust:review.filled_quality_stars %}
+                            <i class="fas fa-star star-filled"></i>
+                        {% endfor %}
+                        {# Loop para exibir estrelas vazias (nota individual) #}
+                        {% for _ in ""|ljust:review.empty_quality_stars %}
+                            <i class="far fa-star star-empty"></i>
+                        {% endfor %}
+                         ({{ review.qualidade }}/5)
+                    </span>
+                    <span class="review-difficulty">
+                        Dificuldade:
+                        {# Loop para exibir círculos preenchidos (nota individual) #}
+                        {% for _ in ""|ljust:review.filled_difficulty_circles %}
+                            <i class="fas fa-circle difficulty-filled"></i>
+                        {% endfor %}
+                         {# Loop para exibir círculos vazios (nota individual) #}
+                         {% for _ in ""|ljust:review.empty_difficulty_circles %}
+                            <i class="far fa-circle difficulty-empty"></i>
+                         {% endfor %}
+                         ({{ review.dificuldade }}/5)
+                    </span>
+                </div>
+                <div class="review-description">
+                    <h4>Descrição:</h4>
+                    <p>{{ review.descricao }}</p>
+                </div>
+                <div class="review-details">
+                    <p><i class="fas fa-percent"></i> Nota Obtida: <strong>{{ review.nota_obtida }} / 100</strong></p>
+                    <p><i class="fas fa-clipboard-check"></i> Presença: <strong>{{ review.presenca|yesno:"Sim,Não" }}</strong></p>
+                    <p><i class="fas fa-calendar-alt"></i> Período: <strong>{{ review.periodo }}</strong></p>
+                    <p><i class="fas fa-book"></i> Disciplina: <strong>{{ review.disciplina.nome }}</strong></p>
+                </div>
+                {% if user.is_authenticated %}
+                    <div class="review-actions">
+                         {# TODO: Adicionar URLs reais para Editar e Excluir Reviews #}
+                         {# Exemplo: <a href="{% url 'reviews:edit_review' review.id %}" title="Editar Review"><i class="fas fa-edit"></i> Editar</a> #}
+                         {# Exemplo: <a href="{% url 'reviews:delete_review' review.id %}" title="Excluir Review" class="delete-link"><i class="fas fa-trash-alt"></i> Excluir</a> #}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {# Seção de Paginação #}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {# Garante que os links de paginação carreguem os parâmetros GET atuais #}
+                {# current_order, current_disciplina, current_periodo são passados da view #}
+                {# O JS irá interceptar cliques nestes links e fazer requisições AJAX #}
+                {% if page_obj.has_previous %}
+                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page=1">« primeira</a>
+                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.previous_page_number }}">anterior</a>
+                {% endif %}
+
+                <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.next_page_number }}">próxima</a>
+                    <a href="?{% if current_order %}ordenar={{ current_order }}&{% endif %}{% if current_disciplina %}disciplina={{ current_disciplina }}&{% endif %}{% if current_periodo %}periodo={{ current_periodo }}&{% endif %}page={{ page_obj.paginator.num_pages }}">última »</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% else %}
+    {# Mensagem exibida se nenhum review for encontrado com os filtros atuais #}
+    <p class="no-reviews-message"><i class="fas fa-info-circle"></i> Nenhum review encontrado para este professor com os filtros aplicados.</p>
+{% endif %}

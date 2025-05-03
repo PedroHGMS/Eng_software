@@ -10,8 +10,8 @@ class Review(models.Model):
     # Dificuldade só pode ser um desses valores [1, 2, 3, 4, 5]. 
     dificuldade = models.IntegerField(null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
 
-    # Qualidade é um des valores [0, 1, 2, 3, 4, 5]
-    qualidade = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    # Qualidade é um des valores [1, 2, 3, 4, 5]
+    qualidade = models.IntegerField(null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     # Descrição é um texto livre
     descricao = models.TextField(null=False)

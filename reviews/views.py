@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from django.db.models import Avg, Count
 from .models import Review
 from universities.models import Professor
 from django.http import HttpResponse
@@ -7,8 +7,13 @@ from django.db.models import Q
 
 
 def all_reviews(request):
-    reviews = Review.objects.all()
-    return render(request, "reviews/reviews.html", {"reviews": reviews})
+    professors = Professor.objects.annotate(
+        avg_rate=Avg("review__qualidade"),
+        total_reviews=Count("review", distinct=True),
+        total_subjects=Count("review__disciplina", distinct=True)
+    ).filter(total_reviews__gt=0)
+
+    return render(request, "reviews/reviews.html", {"professors": professors})
 
 def single_professor_reviews(request, professor_id):
     reviews = Review.objects.filter(professor_id=professor_id)

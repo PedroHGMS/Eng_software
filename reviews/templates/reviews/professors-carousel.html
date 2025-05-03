@@ -5,179 +5,26 @@
 
     <div class="carousel-container">
         <div class="carousel-track">
-            <!-- Cartões dos professores aqui -->
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
+            {% for professor in professors %}
+                <a href="{% url 'reviews:single_professor_reviews' professor.id %}" class="professor-card">
+                    <div class="card-left">
+                        <span>Avaliação</span>
+                        <div class="rating-box {% if professor.avg_rate < 2 %}bg-fraca{% elif professor.avg_rate <= 3 %}bg-media{% else %}bg-alta{% endif %}">
+                            <p>{{ professor.avg_rate|floatformat:1 }}</p>
+                        </div>
+                        <span>{{ professor.total_reviews }} avaliações</span>
                     </div>
-                    <span>50 avaliações</span>
-                </div>
 
-                <div class="card-divider"></div>
+                    <div class="card-divider"></div>
 
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
+                    <div class="card-right">
+                        <h3>{{ professor.name }}</h3>
+                        <h2>{{ professor.departamento }}</h2>
+                        <h1>{{ professor.universidade.nome }}</h1>
+                        <p>{{ professor.total_subjects }} disciplinas | {{ professor.total_reviews }} comentários</p>
                     </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-
-            <div class="professor-card">
-                <div class="card-left">
-                    <span>Avaliação</span>
-                    <div class="rating-box">
-                        <p>4.6</p>
-                    </div>
-                    <span>50 avaliações</span>
-                </div>
-
-                <div class="card-divider"></div>
-
-                <div class="card-right">
-                    <h3>Marco Túlio de Oliveira Valente</h3>
-                    <h2>Engenharia Elétrica</h2>
-                    <h1>Universidade Federal de Minas Gerais</h1>
-                    <p>2 disciplinas | 5 comentários</p>
-                </div>
-            </div>
-            <!-- Adicione mais cartões aqui -->
-
+                </a>
+            {% endfor %}
         </div>
     </div>
 

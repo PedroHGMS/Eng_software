@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Reviews</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result-count {
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 18px;
+        }
+
+        .review {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .review:last-child {
+            border-bottom: none;
+        }
+
+        .review strong {
+            color: #222;
+        }
+
+        .review em {
+            display: block;
+            margin-top: 8px;
+            color: #555;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #999;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Reviews</h1>
+
+        <form method="get" action="{% url 'reviews:search_reviews' %}">
+            <input type="text" name="q" placeholder="Search by professor, discipline or review..." value="{{ query }}" required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if results %}
+            <div class="result-count">
+                {{ results|length }} review{{ results|length|pluralize }} found for "<strong>{{ query }}</strong>"
+            </div>
+            {% for review in results %}
+                <div class="review">
+                    <strong>Professor:</strong> {{ review.professor.name }}<br>
+                    <strong>Disciplina:</strong> {{ review.disciplina.nome }}<br>
+                    <strong>Nota:</strong> {{ review.nota_obtida }}<br>
+                    <strong>Presença:</strong> {{ review.presenca }}
+                    <em>{{ review.descricao }}</em>
+                </div>
+            {% endfor %}
+        {% elif query %}
+            <p class="no-results">No reviews found for "<strong>{{ query }}</strong>".</p>
+        {% else %}
+            <p class="no-results">Type a professor name, discipline, or review to start your search.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

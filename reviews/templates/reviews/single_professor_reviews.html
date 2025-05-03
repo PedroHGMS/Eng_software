@@ -1,49 +1,144 @@
 {% load static %}
+<!-- Create a page with all the info from all reviews listed in a list -->
+ <!-- 
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
+
+# Create your models here.
+class Review(models.Model):
+    # Dificuldade, Qualidade, Descrição, Nota obtida, Presença e Período
+    
+    # Dificuldade só pode ser um desses valores [1, 2, 3, 4, 5]. 
+    dificuldade = models.IntegerField(null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    # Qualidade é um des valores [0, 1, 2, 3, 4, 5]
+    qualidade = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    # Descrição é um texto livre
+    descricao = models.TextField(null=False)
+
+    # Nota obtida é um inteiro de 0 a 100
+    nota_obtida = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+    # Presença é um booleano
+    presenca = models.BooleanField(null=False, default=False)
+
+    # Período deve estar no formato "ano/semestre", exemplo: "2023/1" ou "2023/2" ou "2024/2". Use regex para validar o formato.
+    def validate_periodo(value):
+        import re
+        pattern = r'^\d{4}/[1-2]$'
+        if not re.match(pattern, value):
+            raise ValidationError(
+                f'{value} não é um período válido. O formato deve ser "ano/semestre", exemplo: "2023/1" ou "2023/2" ou "2024/2".'
+            )
+    periodo = models.CharField(max_length=7, null=False, validators=[validate_periodo])
+
+    # Relacionamentos com a review. Professor, Disciplina e Usuário.
+    # Importa o professor
+
+    # Cada review deve ter um professor
+    professor = models.ForeignKey('universities.Professor', on_delete=models.CASCADE, null=False, blank=False)
+
+    # Cada review deve ter uma disciplina
+    disciplina = models.ForeignKey('universities.disciplina', on_delete=models.CASCADE, null=False, blank=False)
+
+    # Cada review deve ter um usuário sem ser admin
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    
+    def __str__(self):
+        return f"Review de {self.usuario} para {self.professor} em {self.disciplina}"
+
+
+
+
+
+ -->
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reviews do Professor {{ professor.name }}</title>
-    <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    {# Opcional: Bloco para adicionar extra head content se precisar em templates que herdam #}
-    {% block extra_head %}{% endblock %}
-</head>
+    <title>Reviews</title>
+    <link rel="stylesheet" href="{% static 'reviews/css/style.css' %}">
+</html>
 <body>
-    {% include 'reviews/includes/header.html' %}
+    <header>
+        <h1>Reviews</h1>
+        <nav>
+            <!-- Button Home -->
+            <ul>
+                <li><a href="{% url 'universities:all_professors' %}">All Professores</a></li>
 
-    <main class="container content-area">
-        {# Informações do Professor (Nome e Universidade) #}
-        {% include 'reviews/includes/professor_info.html' %}
+            </ul>
+        </nav>
+    </header>
 
-        {# Seção de Estatísticas #}
-        {% include 'reviews/includes/statistics.html' %}
+    <main>
+        <h2>Lista das Reviews do professor {{ professor.name }}</h2>
+        {% if reviews %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dificuldade</th>
+                        <th>Qualidade</th>
+                        <th>Descrição</th>
+                        <th>Nota Obtida</th>
+                        <th>Presença</th>
+                        <th>Período</th>
+                        <th>Professor</th>
+                        <th>Disciplina</th>
+                        {% if user.is_authenticated %}
+                            <th>Ações</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for review in reviews %}
+                        <tr>
+                            <td>{{ review.dificuldade }}</td>
+                            <td>{{ review.qualidade }}</td>
+                            <td>{{ review.descricao }}</td>
+                            <td>{{ review.nota_obtida }}</td>
+                            <td>{{ review.presenca|yesno:"Sim,Não" }}</td>
+                            <td>{{ review.periodo }}</td>
+                            <td>{{ review.professor.name }}</td> <!-- Assuming professor has a name field -->
+                            <td>{{ review.disciplina.nome }}</td> <!-- Assuming disciplina has a name field -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
-        {# Seção de Interatividade (Filtros, Ordenação, Botão Adicionar) #}
-        {% include 'reviews/includes/interactivity.html' %}
+            <!-- Pagination -->
+            {% if is_paginated %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">&laquo; primeira</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                        {% endif %}
 
-        {# Seção de Reviews Individuais - ESTE É ONDE O CONTEÚDO AJAX VAI #}
-        <section class="reviews-list">
-             <h3>Reviews Individuais</h3>
-             {# Este é o container que será atualizado pelo JavaScript AJAX #}
-             <div id="reviews-container">
-                 {# O conteúdo inicial desta div é renderizado pelo Django na primeira carga #}
-                 {# E será substituído pelas respostas AJAX subsequentes renderizadas por review_list.html #}
-                 {# Portanto, na carga inicial, incluímos o conteúdo do review_list.html aqui #}
-                 {% include 'reviews/includes/review_list.html' with reviews=reviews page_obj=page_obj is_paginated=is_paginated current_order=current_order current_disciplina=current_disciplina current_periodo=current_periodo user=user %}
-             </div> {# Fim do container #reviews-container #}
-        </section>
-         {# --- Fim Seção de Reviews Individuais --- #}
+                        <span class="current">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                        </span>
+
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">próxima</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+        {% else %}
+            <p>Nenhum review encontrado.</p>
+        {% endif %}
     </main>
-
-    {% include 'reviews/includes/footer.html' %}
-
-    {# Link para o arquivo JavaScript #}
-    {# Este script fará as requisições AJAX para filtro/ordenação e paginação #}
-    <script src="{% static 'reviews/script.js' %}"></script>
-    {# Opcional: Bloco para adicionar extra body scripts se precisar #}
-    {% block extra_body_scripts %}{% endblock %}
+    <footer>
+        <p>&copy; 2023 Reviews. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>
+<!-- 
+    <script src="{% static 'reviews/js/script.js' %}"></script>
+ -->

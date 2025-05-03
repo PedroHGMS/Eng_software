@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>ProfReview</title>
+
+    <link rel="stylesheet" href="{% static 'reviews/reviews.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/professors-carousel.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'reviews/top-bar.html' %}
+    <div class="content">
+        <!-- <h1>Encontre professores e avaliações ou use a barra de busca para começar :)</h1> -->
+        {% include 'reviews/professors-carousel.html' %}
+    </div>
+
+    <script src="{% static 'reviews/professor-carousel.js' %}"></script>
+</body>
+</html>

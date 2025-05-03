@@ -1,0 +1,22 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'reviews/top-bar.css' %}">
+
+<div class="top-bar">
+    <div class="top-bar-section logo">
+        <i class="fa-solid fa-building-columns"></i>
+        <span class="logo-text">ProfReview</span>
+    </div>
+
+    <div class="top-bar-section search">
+        <form class="search-form">
+            <input type="text" placeholder="Busque por professores, disciplinas e universidades.">
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="top-bar-section logout-button" style="justify-content: flex-end;">
+        <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
+    </div>
+</div>

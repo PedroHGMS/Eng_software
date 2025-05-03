@@ -20,11 +20,8 @@ class Universidade(models.Model):
 
 
 class Disciplina(models.Model):
-    # Contem nome e carga horaria
     nome = models.CharField(max_length=255, null=False)
     carga_horaria = models.IntegerField(null=False)
-
-    # Add a many to many relationship to Universidade. A disciplina pode ter muitas universidades e uma universidade pode ter muitas disciplinas.
     universidades = models.ManyToManyField(Universidade, blank=True)
 
     def __str__(self):

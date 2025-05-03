@@ -12,3 +12,7 @@ body {
 .content {
     padding: 20px 10px;
 }
+
+.title-carousel h1 {
+    padding: 20px 0px 0px 40px;
+}

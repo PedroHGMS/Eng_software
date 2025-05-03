@@ -155,7 +155,7 @@ def professor_reviews_view(request, professor_id):
     if is_ajax:
         # Se for requisição AJAX, renderiza apenas a partial template
         # Passa o mesmo contexto para a partial
-        html = render_to_string('reviews/partials/review_list.html', context, request=request)
+        html = render_to_string('reviews/includes/review_list.html', context, request=request)
         # Retorna a HTML dentro de um JSON para facilitar o processamento no JS
         return JsonResponse({'html': html})
         # Ou, se a parcial for o corpo inteiro da resposta, pode retornar HttpResponse(html)

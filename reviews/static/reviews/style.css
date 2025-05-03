@@ -85,6 +85,21 @@
     font-size: 1.8rem;
 }
 
+/* Estilo para a universidade abaixo do nome do professor */
+.professor-university {
+    margin-top: -20px; /* Ajusta a margem para que fique mais perto do nome */
+    margin-bottom: 30px; /* Mantém a margem abaixo para separar das estatísticas */
+    color: #555; /* Cor cinza */
+    font-size: 1.1em; /* Tamanho da fonte um pouco menor que o h2 */
+    text-align: center; /* Centraliza o texto */
+}
+
+.professor-university i {
+    margin-right: 8px; /* Espaço entre o ícone e o nome da universidade */
+    color: #007bff; /* Cor azul para o ícone */
+}
+
+
 /* ===============================
    Statistics Section
    =============================== */
@@ -155,6 +170,11 @@
 .avg-stats .avg-visual-icons i {
     font-size: 1.2em; /* Tamanho maior para ícones de média */
     margin-right: 2px; /* Espaço menor entre ícones */
+}
+
+/* Estilo para ícones de meia estrela (Qualidade Média) */
+.avg-stats .avg-visual-icons .fa-star-half-alt {
+    /* Não precisa de estilo especial aqui, a cor já é .star-filled */
 }
 
 
@@ -304,6 +324,7 @@
     gap: 8px;
     flex-wrap: wrap;
     flex-grow: 0;
+    /* flex-shrink: 0; Removido para permitir encolher em desktop */
 }
 
 
@@ -315,16 +336,18 @@
 
 .filter-sort-area select {
     padding: 8px 10px;
-    border: 1px solid #db1212;
+    border: 1px solid #ccc; /* Alterado de #db1212 para #ccc - borda vermelha parecia erro */
     border-radius: 4px;
     font-size: 1em;
-    min-width: 80px;
-    max-width: 250px;
+    min-width: 80px; /* Permitir menor largura */
+    max-width: 250px; /* Limitar largura em telas muito grandes */
 }
 
 /* Estilo específico para o botão "Aplicar Filtros/Ordenação" dentro de .filter-sort-area */
 .filter-sort-area .btn-secondary {
-     padding: 10px 12px;
+     /* flex-grow: 0; Removido para permitir encolher em desktop */
+     /* flex-shrink: 0; Removido para permitir encolher em desktop */
+     padding: 10px 12px; /* Ajustado para ícone */
 }
 
 .filter-sort-area .btn-secondary i {
@@ -369,7 +392,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 25px;
+    padding: 25px; /* Padding padrão */
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
@@ -442,7 +465,7 @@
 .review-description p {
     margin: 0;
     font-style: normal;
-    padding: 20px;
+    padding: 20px; /* Padding padrão */
     background-color: #eef;
     border-left: 5px solid #007bff;
     border-radius: 6px;
@@ -641,34 +664,51 @@
 
      .filter-sort-area select,
      .filter-sort-area .btn-secondary { /* Aplica 100% para selects E botão Aplicar */
-         width: 1%;
+         width: 100%; /* CORRIGIDO: Antes era 1% */
          min-width: auto; /* Remove largura mínima para permitir que se ajustem a 100% */
          margin-left: 0; /* Remove qualquer margin-left: auto */
      }
 
 
     /* Ajustes nos cards de review */
+    .review-item {
+        /* Reduz padding horizontal em telas menores, mantendo o vertical */
+        padding: 20px 10px; /* Ajuste aqui: 20px vertical, 10px horizontal */
+    }
+
     .review-header {
         flex-direction: column;
         gap: 10px;
+        /* O padding-bottom de 15px ainda está aqui */
     }
 
     .review-quality,
     .review-difficulty {
          justify-content: center; /* Centraliza quality/difficulty no cabeçalho empilhado */
+         /* O gap de 5px ainda está aqui */
     }
 
     .review-item {
-        padding: 20px; /* Reduz padding em telas menores */
+        /* padding: 20px; Este foi movido e modificado acima */
     }
 
     .review-description p {
-        padding: 15px; /* Reduz padding da descrição */
+        /* Reduz padding horizontal na descrição em telas menores, mantendo o vertical */
+        padding: 15px 8px; /* Ajuste aqui: 15px vertical, 8px horizontal */
+        /* O border-left de 5px ainda está aqui */
+        /* O word-wrap: break-word já está aqui, o que é bom */
     }
 
     .review-details p {
          flex-direction: column;
          align-items: flex-start;
          gap: 3px;
+         /* O gap de 8px padrão é anulado por este de 3px na media query */
     }
+
+    /* Adicional: Se os ícones nos detalhes estiverem deslocando, remover a margem */
+     .review-details p i {
+        margin-right: 0;
+        margin-left: 0;
+     }
 }

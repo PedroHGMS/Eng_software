@@ -1,2 +1,2 @@
-prof_review\__pycache__\
-professor\__pycache__\
+__pycache__/
+*.py[cod]

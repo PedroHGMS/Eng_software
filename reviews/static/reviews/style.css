@@ -315,10 +315,11 @@
 
 .filter-sort-area select {
     padding: 8px 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #db1212;
     border-radius: 4px;
     font-size: 1em;
-    min-width: 80px; /* Experimente um valor baixo */
+    min-width: 80px;
+    max-width: 250px;
 }
 
 /* Estilo específico para o botão "Aplicar Filtros/Ordenação" dentro de .filter-sort-area */
@@ -415,12 +416,6 @@
 .difficulty-empty {
      color: #ccc; /* Cor cinza claro para círculos vazios */
 }
-
-/* Estilo para ícones de meia estrela (Qualidade Média) */
-.avg-stats .avg-visual-icons .fa-star-half-alt {
-    /* Não precisa de estilo especial aqui, a cor já é .star-filled */
-}
-
 
 .review-quality i.fas,
 .review-quality i.far {
@@ -646,7 +641,7 @@
 
      .filter-sort-area select,
      .filter-sort-area .btn-secondary { /* Aplica 100% para selects E botão Aplicar */
-         width: 100%;
+         width: 1%;
          min-width: auto; /* Remove largura mínima para permitir que se ajustem a 100% */
          margin-left: 0; /* Remove qualquer margin-left: auto */
      }

@@ -16,13 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views # Import Django's auth views
-from reviews import views as reviews_views # Import your reviews views
+from django.contrib.auth import views as auth_views
+from reviews import views as reviews_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', reviews_views.all_reviews, name='home'), # Map root to all_reviews view, give it a name 'home'
+    path('', reviews_views.all_reviews, name='home'),
     path('universities/', include("universities.urls", namespace="universities")),
     path('reviews/', include("reviews.urls", namespace="reviews")),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),

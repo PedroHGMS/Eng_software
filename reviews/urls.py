@@ -1,7 +1,7 @@
 from django.urls import path
 from reviews import views
-from django.views.generic.base import RedirectView # Import RedirectView
-from django.urls import path, include, reverse_lazy # Import reverse_lazy
+from django.views.generic.base import RedirectView
+from django.urls import path, reverse_lazy
 
 app_name = "reviews"
 urlpatterns = [

@@ -10,4 +10,4 @@ def all_professors(request):
     """
     Professors = Professor.objects.all()
 
-    return render(request, rf"universities/all_professors.html", context={"professors": Professors})
+    return render(request, "universities/all_professors.html", context={"professors": Professors})

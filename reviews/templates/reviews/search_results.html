@@ -178,7 +178,7 @@
             {% for professor in professors_found %}
                 <div class="professor-result"> {# Use the new class for styling #}
                     {# Create a link to the single_professor_reviews page #}
-                    <a href="{% url 'reviews:single_professor_reviews' professor_id=professor.id %}" class="professor-link">
+                    <a href="{% url 'reviews:professor_reviews' professor_id=professor.id %}" class="professor-link">
                         {{ professor.name }}
                     </a>
                     {# Optional: Add other professor details if available #}

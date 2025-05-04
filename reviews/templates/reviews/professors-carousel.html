@@ -6,7 +6,7 @@
     <div class="carousel-container">
         <div class="carousel-track">
             {% for professor in professors %}
-                <a href="{% url 'reviews:single_professor_reviews' professor.id %}" class="professor-card">
+                <a href="{% url 'reviews:professor_reviews' professor.id %}" class="professor-card">
                     <div class="card-left">
                         <span>Avaliação</span>
                         <div class="rating-box {% if professor.avg_rate < 2 %}bg-fraca{% elif professor.avg_rate <= 3 %}bg-media{% else %}bg-alta{% endif %}">

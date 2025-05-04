@@ -24,7 +24,7 @@
         {% for professor in professors %}
             <li>
                 <!-- Add link to their reviews -->
-                <strong>Name:</strong> <a href="{% url 'reviews:single_professor_reviews' professor.id %}">{{ professor.name }}</a><br>
+                <strong>Name:</strong> <a href="{% url 'reviews:professor_reviews' professor.id %}">{{ professor.name }}</a><br>
                 <strong>Department:</strong> {{ professor.departamento }}<br>
                 <strong>University ID:</strong> {{ professor.universidade_id }}<br>
             </li>

@@ -3,11 +3,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class Review(models.Model):
     # Dificuldade, Qualidade, Descrição, Nota obtida, Presença e Período
-    
-    # Dificuldade só pode ser um desses valores [1, 2, 3, 4, 5]. 
+
+    # Dificuldade só pode ser um desses valores [1, 2, 3, 4, 5].
     dificuldade = models.IntegerField(null=False, validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     # Qualidade é um des valores [0, 1, 2, 3, 4, 5]
@@ -43,9 +44,6 @@ class Review(models.Model):
 
     # Cada review deve ter um usuário sem ser admin
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    
+
     def __str__(self):
         return f"Review de {self.usuario} para {self.professor} em {self.disciplina}"
-
-
-

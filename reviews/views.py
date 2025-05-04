@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Case, When, BooleanField, Value as V
 from .models import Review
-from universities.models import Professor
+from universities.models import Professor, Universidade, Disciplina
+from django.http import HttpResponse
 from django.db.models import Q
 from django.contrib.auth import logout
 from django.shortcuts import redirect
@@ -12,9 +13,23 @@ def all_reviews(request):
         avg_rate=Avg("review__qualidade"),
         total_reviews=Count("review", distinct=True),
         total_subjects=Count("review__disciplina", distinct=True)
-    ).filter(total_reviews__gt=0)
+    ).filter(total_reviews__gt=0).order_by("?")
 
-    return render(request, "reviews/reviews.html", {"professors": professors})
+    top_disciplinas = Disciplina.objects.annotate(
+    qualidade_media=Avg("review__qualidade"),
+    total_avaliacoes=Count("review")
+    ).filter(total_avaliacoes__gt=0).order_by("-qualidade_media")[:5]
+
+    top_universidades = Universidade.objects.annotate(
+        qualidade_media=Avg("professor__review__qualidade"),
+        total_avaliacoes=Count("professor__review")
+    ).filter(total_avaliacoes__gt=0).order_by("-qualidade_media")[:5]
+
+    return render(request, "reviews/reviews.html", {
+        "professors": professors,
+        "top_disciplinas": top_disciplinas,
+        "top_universidades": top_universidades,
+    })
 
 
 def single_professor_reviews(request, professor_id):

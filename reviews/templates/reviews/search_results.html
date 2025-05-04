@@ -1,43 +1,30 @@
-{% load static %} {# Added load static just in case, though not strictly needed if no static files are directly used here #}
+{% load static %} {# Ensure static files are loaded for CSS paths #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Results for {{ query }}</title> {# Updated title #}
+    <title>Resultados da Busca por "{{ query }}"</title> {# Updated title #}
+
+    {# Link to the specific CSS for the included top bar component #}
+    <link rel="stylesheet" href="{% static 'reviews/top-bar.css' %}">
+
+    {# Add Font Awesome if not loaded globally (adjust path/CDN if needed) #}
+    {# Example using Font Awesome CDN #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
-        /* --- Keep your existing base styles --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #eef2f5;
+            background-color: white;
             margin: 0;
             padding: 0;
         }
 
-        .top-nav {
-            background-color: #000000;
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .top-nav .logo {
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-        }
-
-        .top-nav .logo .icon {
-            margin-right: 10px;
-        }
-        /* --- Keep container, h1, form, input, button styles --- */
         .container {
             max-width: 850px;
             margin: 40px auto;
             background-color: #ffffff;
-            padding: 40px;
+            padding: 30px 40px;
             border-radius: 16px;
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
         }
@@ -45,154 +32,109 @@
         h1 {
             text-align: center;
             color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 28px;
+            margin-bottom: 30px; 
+            font-size: 26px; 
         }
 
-        form {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        input[type="text"] {
-            flex: 1;
-            max-width: 500px;
-            padding: 12px 16px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #000000;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #333333;
-        }
-        /* --- Keep result-count and no-results styles --- */
         .result-count {
-            margin-bottom: 20px;
-            color: #444;
+            margin-bottom: 25px;
+            color: #333;
             font-size: 18px;
             font-weight: 500;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
         }
         .no-results {
             text-align: center;
             color: #888;
             font-size: 18px;
+            margin-top: 20px;
         }
 
-        /* --- Remove or comment out old .review styles ---
-        .review { ... }
-        .review-meta { ... }
-        .review-text { ... }
-        --- */
-
-        /* --- Add styles for professor result blocks --- */
         .professor-result {
             background-color: #fdfdfd;
-            border-radius: 8px; /* Can reuse or adjust */
-            padding: 18px 22px; /* Can reuse or adjust */
-            margin-bottom: 15px; /* Adjusted */
-            border-left: 4px solid #2980b9; /* Example blue color */
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2980b9;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.2s ease;
         }
+         .professor-result:hover {
+             background-color: #f9f9f9;
+         }
 
         .professor-link {
             display: block;
             color: #2c3e50;
             text-decoration: none;
-            font-weight: 600; /* Slightly bolder */
+            font-weight: 600;
             font-size: 1.1em;
             transition: color 0.2s ease;
         }
 
         .professor-link:hover {
-            color: #2980b9; /* Match border color on hover */
-            text-decoration: underline;
+            color: #2980b9;
         }
 
-        /* --- Keep media query styles --- */
         @media (max-width: 600px) {
-            form {
-                flex-direction: column;
-                gap: 10px;
+            .container {
+                margin: 20px 15px;
+                padding: 20px;
             }
-            input[type="text"] {
-                width: 100%; /* Ensure it takes full width available */
-                max-width: none; /* Override max-width for small screens */
+            h1 {
+                font-size: 22px;
             }
-            button {
-                width: 100%;
-            }
-            /* Remove or adjust .review-meta if needed */
         }
     </style>
 </head>
 <body>
-    <div class="top-nav">
-        <div class="logo">
-            {# Use the url tag for the home/reviews link #}
-            <a href="{% url 'reviews:all_reviews' %}" style="color: white; text-decoration: none; display: flex; align-items: center;">
-                <span class="icon">🏛️</span>
-                ProfReview
-            </a>
-        </div>
-        <div class="share-icon">
-            {# Add icon or element here if needed #}
-        </div>
-    </div>
 
+    {# Include the standard top bar component #}
+    {% include 'reviews/top-bar.html' %}
+
+    {# Main content area for search results #}
     <div class="container">
-        <h1>Procure por um professor ou uma disciplina</h1>
 
-        <form method="GET" action="{% url 'reviews:search_reviews' %}">
-            <input type="text" name="q" placeholder="Digite o nome de um professor ou uma disciplina..." value="{{ query }}">
-            <button type="submit">Search</button>
-        </form>
+        {# Heading for the results page #}
+        <h1>Resultados da Busca</h1>
 
-        {# Check the new context variable passed from the view #}
-        {% if professors_found %}
+        {# Display the search query and result count #}
+        {% if query %}
             <div class="result-count">
-                {# Update text to reflect professors found #}
-                {% if professors_found|length == 1 %}
-                    {{ professors_found|length }} professor encontrado para "<strong>{{ query }}</strong>"
+                {% if professors_found %}
+                    {% if professors_found|length == 1 %}
+                        {{ professors_found|length }} professor encontrado para "<strong>{{ query }}</strong>"
+                    {% else %}
+                        {{ professors_found|length }} professores encontrados para "<strong>{{ query }}</strong>"
+                    {% endif %}
                 {% else %}
-                    {{ professors_found|length }} professores encontrados para "<strong>{{ query }}</strong>"
+                    Nenhum professor ou disciplina encontrada para "<strong>{{ query }}</strong>".
                 {% endif %}
             </div>
+        {% endif %}
 
+
+        {# Display professor results if found #}
+        {% if professors_found %}
             {# Loop through the unique professors found #}
             {% for professor in professors_found %}
-                <div class="professor-result"> {# Use the new class for styling #}
-                    {# Create a link to the single_professor_reviews page #}
+                <div class="professor-result">
                     <a href="{% url 'reviews:professor_reviews' professor_id=professor.id %}" class="professor-link">
                         {{ professor.name }}
                     </a>
-                    {# Optional: Add other professor details if available #}
-                    {# e.g., <small style="color: #777;">{{ professor.university.name }}</small> #}
+                    {# Optional: Add other details here if needed #}
                 </div>
             {% endfor %}
-
         {% elif query %}
-             {# Update text for no results #}
-            <p class="no-results">Nenhum professor ou disciplina encontrada para "<strong>{{ query }}</strong>".</p>
+            {# Message moved to result-count area above, but you could keep a simplified one here #}
+            {# <p class="no-results">Tente refinar sua busca.</p> #}
         {% else %}
-             {# Optional: Add a message if query is empty (e.g., user visited /search/ directly) #}
-             {# <p class="no-results">Digite um termo na busca acima.</p> #}
+             {# Optional: Message if the page is accessed without a query (e.g., /search/ directly) #}
+             <p class="no-results">Use a barra de busca acima para encontrar professores ou disciplinas.</p>
         {% endif %}
-    </div>
+
+    </div> {# End of container #}
+
 </body>
 </html>

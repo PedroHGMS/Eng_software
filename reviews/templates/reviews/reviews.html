@@ -13,14 +13,6 @@
 <body>
     {% include 'reviews/top-bar.html' %}
 
-    <!-- MOVED SEARCH BAR HERE -->
-    <form class="search-form" action="{% url 'reviews:search_reviews' %}" method="get" style="display: flex; justify-content: center; margin: 20px;">
-        <input type="text" name="q" placeholder="Search reviews..." class="search-bar">
-        <button type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </form>
-
     <div class="content">
         <div class="title-carousel">
             <h1>Avaliações de professores</h1>

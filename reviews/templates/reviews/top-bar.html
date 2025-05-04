@@ -1,15 +1,37 @@
 {% load static %}
+
+{# Link to the specific CSS for this top bar component #}
 <link rel="stylesheet" href="{% static 'reviews/top-bar.css' %}">
 
+
 <div class="top-bar">
+
+    <!-- Logo Section -->
     <div class="top-bar-section logo">
-        <i class="fa-solid fa-building-columns"></i>
-        <span class="logo-text">ProfReview</span>
+        <a href="/" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;"> {# Optional: Link logo to homepage #}
+            <i class="fa-solid fa-building-columns"></i>
+            <span class="logo-text">ProfReview</span>
+        </a>
     </div>
 
-    <!-- REMOVED the search bar from here -->
+    <!-- Search Bar Section -->
+    <div class="top-bar-section search-section">
 
-    <div class="top-bar-section logout-button" style="justify-content: flex-end;">
-        <i class="fa-solid fa-right-from-bracket" title="Logout"></i>
+        <form action="{% url 'reviews:search_reviews' %}" method="get" class="top-search-form">
+            <input type="text" name="q" placeholder="Busque por professores, disciplinas e universidades..." value="{{ request.GET.q }}" class="top-search-input">
+            <button type="submit" class="top-search-button">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
     </div>
+
+    <!-- Logout Section -->
+    <div class="top-bar-section logout-button">
+        <a href="{% url 'logout' %}" title="Logout">
+        {# If using the custom logout view defined in reviews/urls.py: #}
+        {# <a href="{% url 'reviews:logout' %}" title="Logout"> #}
+           <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+    </div>
+
 </div>

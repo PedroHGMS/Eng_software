@@ -3,7 +3,8 @@ from django.db.models import Avg, Count
 from .models import Review
 from universities.models import Professor
 from django.db.models import Q
-
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 def all_reviews(request):
     professors = Professor.objects.annotate(
@@ -38,3 +39,8 @@ def search_reviews(request):
         'query': query,
         'results': results
     })
+
+def my_custom_logout_view(request):
+    logout(request)
+    # Redirect to a page after logout
+    return redirect('/') # Or wherever you want them to go

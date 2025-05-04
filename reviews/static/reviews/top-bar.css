@@ -1,25 +1,32 @@
 .top-bar {
     position: fixed;
     top: 0;
+    left: 0; /* Good practice for fixed positioning */
     width: 100%;
     height: 60px;
     background-color: #1a1a1a;
     color: white;
     display: flex;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 20px; /* Horizontal padding */
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-sizing: border-box; /* Include padding in width */
 }
 
+/* REMOVED flex: 1 from here */
 .top-bar-section {
-    flex: 1;
+    /* Removed flex: 1 */
     display: flex;
     align-items: center;
+    /* Sections will now take their content's width by default */
 }
 
+/* Logo Section Styles */
 .logo {
-    gap: 10px;
+    /* No flex: 1 needed */
+    gap: 10px; /* Keeps space between icon and text */
+    margin-right: 20px; /* Add space between logo and search */
 }
 
 .logo-text {
@@ -27,42 +34,89 @@
     font-weight: 300;
     font-size: 20px;
     color: white;
+    white-space: nowrap; /* Prevent wrapping */
 }
 
-.logo i,
-.logout-button i {
+.logo i { /* Combined icon styling */
     font-size: 24px;
     color: white;
     cursor: pointer;
 }
 
-.search {
-    justify-content: center;
+
+/* Search Section Styles */
+/* This is the container for the search form */
+.search-section {
+    flex-grow: 1; /* CRITICAL: Makes this section take up available space */
+    display: flex; /* Needed to center the form within this section */
+    justify-content: center; /* Centers the form horizontally */
+    margin: 0 20px; /* Add space between logo/search and search/logout */
 }
 
-.search-form {
+/* Renamed from .search-form to match HTML */
+.top-search-form {
     display: flex;
-    max-width: 500px;
-    width: 100%;
+    max-width: 600px; /* Increased max-width slightly, adjust as needed */
+    width: 100%; /* Take width of parent (.search-section), constrained by max-width */
 }
 
-.search-form input[type="text"] {
-    flex: 1;
+/* Renamed and targeted specific input class */
+.top-search-input {
+    flex-grow: 1; /* Make input field expand */
     padding: 8px 12px;
     border-radius: 8px 0 0 8px;
-    border: none;
-    outline: none;
+    border: none; /* Your original style */
+    outline: none; /* Your original style */
+    background-color: #444; /* Added background for better contrast */
+    color: #eee; /* Light text color */
+    font-size: 14px; /* Adjust as needed */
 }
 
-.search-form button {
-    background-color: #8a8a8a;
+.top-search-input::placeholder { /* Style placeholder */
+    color: #aaa;
+}
+
+/* Renamed and targeted specific button class */
+.top-search-button {
+    background-color: #555; /* Darker gray, adjust as needed */
     border: none;
     color: white;
     padding: 8px 16px;
     border-radius: 0 8px 8px 0;
     cursor: pointer;
+    display: flex; /* Align icon nicely if needed */
+    align-items: center;
+    justify-content: center;
 }
 
-.search-form button:hover {
-    background-color: #2980b9;
+.top-search-button:hover {
+    background-color: #666; /* Slightly lighter hover */
+}
+
+.top-search-button i {
+    font-size: 16px; /* Adjust icon size if needed */
+}
+
+/* Logout Section Styles */
+.logout-button {
+    /* No flex: 1 needed */
+    margin-left: 20px; /* Add space between search and logout */
+    /* Content (icon) will align naturally if it's the only item */
+}
+
+.logout-button a { /* Style the link if you wrap the icon */
+    color: white;
+    text-decoration: none;
+    display: flex; /* Helps align the icon if needed */
+    align-items: center;
+}
+
+.logout-button i { /* Combined icon styling */
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.logout-button i:hover {
+     color: #ccc; /* Optional hover effect */
 }

@@ -1,0 +1,37 @@
+name: Django CI
+
+on:
+  push:
+    branches: ["**"]  # Triggers on push to ANY branch
+  pull_request:
+    branches: ["**"]  # Optional: triggers on PR to ANY branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install flake8
+
+    - name: Run flake8
+      run: |
+        flake8 . --max-line-length=175
+
+    - name: Run Django unit tests
+      env:
+        DJANGO_SETTINGS_MODULE: prof_review.settings
+      run: |
+        python manage.py migrate
+        python manage.py test

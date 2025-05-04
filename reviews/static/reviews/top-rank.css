@@ -1,0 +1,56 @@
+.top-rank-section {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.top-ranks-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.top-rank {
+    flex: 1;
+    background-color: #fdfdfd;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.top-rank h3 {
+    margin-bottom: 12px;
+    font-size: 18px;
+    color: #222;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+}
+
+.rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eaeaea;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.06);
+}
+
+.rank-name {
+    flex: 1;
+}
+
+.rank-score {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 13px;
+    font-weight: bold;
+}

@@ -1,0 +1,28 @@
+{% load static %}
+<div class="top-rank-section">
+    <div class="top-ranks-container">
+        <div class="top-rank">
+            <h3>Top 5 Disciplinas</h3>
+            <ul>
+                {% for disciplina in top_disciplinas %}
+                    <li class="rank-item">
+                        <span class="rank-name">{{ disciplina.nome }}</span>
+                        <span class="rank-score">{{ disciplina.qualidade_media|floatformat:1 }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="top-rank">
+            <h3>Top 5 Universidades</h3>
+            <ul>
+                {% for uni in top_universidades %}
+                    <li class="rank-item">
+                        <span class="rank-name">{{ uni.nome }}</span>
+                        <span class="rank-score">{{ uni.qualidade_media|floatformat:1 }}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,11 @@
+{% load static %} {# Added load static just in case, though not strictly needed if no static files are directly used here #}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search Reviews</title>
+    <title>Search Results for {{ query }}</title> {# Updated title #}
     <style>
+        /* --- Keep your existing base styles --- */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #eef2f5;
@@ -30,10 +32,10 @@
         .top-nav .logo .icon {
             margin-right: 10px;
         }
-
+        /* --- Keep container, h1, form, input, button styles --- */
         .container {
             max-width: 850px;
-            margin: 40px auto; 
+            margin: 40px auto;
             background-color: #ffffff;
             padding: 40px;
             border-radius: 16px;
@@ -68,7 +70,7 @@
         button {
             padding: 12px 24px;
             font-size: 16px;
-            background-color: #000000; 
+            background-color: #000000;
             color: white;
             border: none;
             border-radius: 10px;
@@ -79,79 +81,77 @@
         button:hover {
             background-color: #333333;
         }
-
+        /* --- Keep result-count and no-results styles --- */
         .result-count {
             margin-bottom: 20px;
             color: #444;
             font-size: 18px;
             font-weight: 500;
         }
-
-        .review {
-            background-color: #fdfdfd;
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-bottom: 20px;
-            border-left: 4px solid #000000;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            font-size: 15px;
-        }
-
-        .review-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 12px;
-            color: #2c3e50;
-        }
-
-        .review-meta span {
-            font-weight: 500;
-            color: #000000;
-        }
-
-        .review-text {
-            margin: 0;
-            font-style: italic;
-            color: #555;
-        }
-
         .no-results {
             text-align: center;
             color: #888;
             font-size: 18px;
         }
 
+        /* --- Remove or comment out old .review styles ---
+        .review { ... }
+        .review-meta { ... }
+        .review-text { ... }
+        --- */
+
+        /* --- Add styles for professor result blocks --- */
+        .professor-result {
+            background-color: #fdfdfd;
+            border-radius: 8px; /* Can reuse or adjust */
+            padding: 18px 22px; /* Can reuse or adjust */
+            margin-bottom: 15px; /* Adjusted */
+            border-left: 4px solid #2980b9; /* Example blue color */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .professor-link {
+            display: block;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600; /* Slightly bolder */
+            font-size: 1.1em;
+            transition: color 0.2s ease;
+        }
+
+        .professor-link:hover {
+            color: #2980b9; /* Match border color on hover */
+            text-decoration: underline;
+        }
+
+        /* --- Keep media query styles --- */
         @media (max-width: 600px) {
             form {
                 flex-direction: column;
                 gap: 10px;
             }
-
             input[type="text"] {
-                width: 100%;
+                width: 100%; /* Ensure it takes full width available */
+                max-width: none; /* Override max-width for small screens */
             }
-
             button {
                 width: 100%;
             }
-
-            .review-meta {
-                flex-direction: column;
-                gap: 4px;
-            }
+            /* Remove or adjust .review-meta if needed */
         }
     </style>
 </head>
 <body>
     <div class="top-nav">
         <div class="logo">
-            <a href="http://127.0.0.1:8000/reviews/all_reviews/?q=" style="color: white; text-decoration: none; display: flex; align-items: center;">
+            {# Use the url tag for the home/reviews link #}
+            <a href="{% url 'reviews:all_reviews' %}" style="color: white; text-decoration: none; display: flex; align-items: center;">
                 <span class="icon">🏛️</span>
                 ProfReview
             </a>
         </div>
         <div class="share-icon">
+            {# Add icon or element here if needed #}
         </div>
     </div>
 
@@ -163,29 +163,35 @@
             <button type="submit">Search</button>
         </form>
 
-        {% if results %}
+        {# Check the new context variable passed from the view #}
+        {% if professors_found %}
             <div class="result-count">
-                {% if results|length == 1 %}
-                    {{ results|length }} avaliação encontrada para "<strong>{{ query }}</strong>"
+                {# Update text to reflect professors found #}
+                {% if professors_found|length == 1 %}
+                    {{ professors_found|length }} professor encontrado para "<strong>{{ query }}</strong>"
                 {% else %}
-                    {{ results|length }} avaliações encontradas para "<strong>{{ query }}</strong>"
+                    {{ professors_found|length }} professores encontrados para "<strong>{{ query }}</strong>"
                 {% endif %}
             </div>
 
-            {% for review in results %}
-                <div class="review">
-                    <div class="review-meta">
-                        <span><strong>Professor:</strong> {{ review.professor.name }}</span>
-                        <span><strong>Disciplina:</strong> {{ review.disciplina.nome }}</span>
-                        <span><strong>Nota:</strong> {{ review.nota_obtida }}</span>
-                        <span><strong>Presença:</strong> {{ review.presenca }}</span>
-                    </div>
-                    <p class="review-text">{{ review.descricao }}</p>
+            {# Loop through the unique professors found #}
+            {% for professor in professors_found %}
+                <div class="professor-result"> {# Use the new class for styling #}
+                    {# Create a link to the single_professor_reviews page #}
+                    <a href="{% url 'reviews:single_professor_reviews' professor_id=professor.id %}" class="professor-link">
+                        {{ professor.name }}
+                    </a>
+                    {# Optional: Add other professor details if available #}
+                    {# e.g., <small style="color: #777;">{{ professor.university.name }}</small> #}
                 </div>
             {% endfor %}
 
         {% elif query %}
-            <p class="no-results">Nenhuma avaliação encontrada para "<strong>{{ query }}</strong>".</p>
+             {# Update text for no results #}
+            <p class="no-results">Nenhum professor ou disciplina encontrada para "<strong>{{ query }}</strong>".</p>
+        {% else %}
+             {# Optional: Add a message if query is empty (e.g., user visited /search/ directly) #}
+             {# <p class="no-results">Digite um termo na busca acima.</p> #}
         {% endif %}
     </div>
 </body>

@@ -25,19 +25,29 @@ def single_professor_reviews(request, professor_id):
 
 
 def search_reviews(request):
-    query = request.GET.get('q', '')
-    results = []
+    query = request.GET.get('q', '').strip()
+    # Initialize professors_found as an empty queryset
+    professors_found = Professor.objects.none()
 
     if query:
-        results = Review.objects.filter(
-            Q(professor__name__icontains=query) |  # professor name
-            Q(disciplina__nome__icontains=query) |  # discipline name
-            Q(descricao__icontains=query)           # review description
-        ).distinct()
+        # 1. Find reviews matching the query criteria
+        matching_reviews = Review.objects.filter(
+            Q(professor__name__icontains=query) |
+            Q(disciplina__nome__icontains=query) |
+            Q(descricao__icontains=query)
+        ).distinct() # Find distinct reviews first
 
+        # 2. Get the unique IDs of the professors from these reviews
+        professor_ids = matching_reviews.values_list('professor_id', flat=True).distinct()
+
+        # 3. Retrieve the actual Professor objects based on those IDs
+        if professor_ids:
+            professors_found = Professor.objects.filter(id__in=professor_ids).order_by('name') # Order alphabetically
+
+    # 4. Pass the queryset of unique PROFESSORS to the template
     return render(request, 'reviews/search_results.html', {
         'query': query,
-        'results': results
+        'professors_found': professors_found # Pass professors instead of reviews
     })
 
 def my_custom_logout_view(request):

@@ -1,4 +1,3 @@
-from django.urls import path
 from reviews import views
 from django.views.generic.base import RedirectView
 from django.urls import path, reverse_lazy

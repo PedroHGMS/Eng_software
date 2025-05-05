@@ -25,6 +25,14 @@
         </form>
     </div>
 
+    <!-- Make Review Button Section -->
+    <div class="top-bar-section make-review-button">
+        <a href="{% url 'reviews:make_review' %}" title="Add New">
+            <i class="fa-solid fa-plus"></i> 
+        </a>
+    </div>
+
+    <!-- Logout Section -->
     <div class="top-bar-section logout-button">
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}

@@ -11,7 +11,21 @@ from django.http import JsonResponse
 from .models import Review
 from math import floor, ceil
 
-@login_required
+from django.shortcuts import render, redirect
+from django.db.models import Avg, Count, Case, When, BooleanField, Value as V, Q
+
+from .forms import ReviewForm
+
+from .models import Review
+from universities.models import Professor, Universidade, Disciplina
+
+from django.http import HttpResponse
+
+from django.contrib.auth import logout
+from django.contrib.auth.models import User
+
+
+
 def all_reviews(request):
     professors = Professor.objects.annotate(
         avg_rate=Avg("review__qualidade"),
@@ -200,3 +214,28 @@ def search_reviews(request):
         'professors_found': professors_found
     })
 
+def MakeReview(request):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form.instance.user = 'guest'
+            form.save()
+            return redirect('reviews:success')  
+    else:
+        form = ReviewForm()
+
+    professores = Professor.objects.all()
+    disciplinas = Disciplina.objects.all()
+    usuarios = User.objects.all()
+
+    context = {
+        'form': form,
+        'professores': professores,
+        'disciplinas': disciplinas,
+        'usuarios': usuarios,
+    }
+    
+    return render(request, 'reviews/make_review.html', context)
+
+def MakeReviewSucess(request):
+    return render(request, 'reviews/make_review_success.html')

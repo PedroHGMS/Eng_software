@@ -1,0 +1,122 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    line-height: 1.6;
+    padding-top: 80px; /* Add padding to prevent overlap with the top bar */
+}
+
+/* Header Section */
+header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.5em;
+    font-weight: 600;
+}
+
+/* Main Container */
+.form-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section */
+form h2 {
+    font-size: 1.8em;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Form Fields */
+.form-fields p {
+    font-size: 1em;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.form-fields input[type="text"],
+.form-fields input[type="email"],
+.form-fields textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.form-fields input[type="text"]:focus,
+.form-fields input[type="email"]:focus,
+.form-fields textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Textarea Styles */
+textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+/* Submit Button */
+.submit-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #007bff;
+}
+
+/* Form Group Styles */
+.form-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-fields input[type="text"],
+    .form-fields input[type="email"],
+    .form-fields textarea {
+        font-size: 0.9em;
+    }
+
+    .submit-btn {
+        font-size: 1em;
+    }
+}

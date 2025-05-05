@@ -1,4 +1,4 @@
-from django.db.models import Avg, Count, Case, When, BooleanField, Value as V, Q
+from django.db.models import Avg, Count, Q
 
 from universities.models import Professor, Universidade, Disciplina
 from .forms import ReviewForm
@@ -6,13 +6,13 @@ from .models import Review
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.template.loader import render_to_string
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 
-from math import floor, ceil
+from math import floor
+
 
 @login_required
 def all_reviews(request):
@@ -23,8 +23,8 @@ def all_reviews(request):
     ).filter(total_reviews__gt=0).order_by("?")
 
     top_disciplinas = Disciplina.objects.annotate(
-    avg_quality=Avg("review__qualidade"),
-    total_reviews=Count("review")
+        avg_quality=Avg("review__qualidade"),
+        total_reviews=Count("review")
     ).filter(total_reviews__gt=0).order_by("-avg_quality")[:5]
 
     top_universidades = Universidade.objects.annotate(
@@ -37,6 +37,7 @@ def all_reviews(request):
         "top_disciplinas": top_disciplinas,
         "top_universidades": top_universidades,
     })
+
 
 @login_required
 def professor_reviews_view(request, professor_id):
@@ -53,7 +54,7 @@ def professor_reviews_view(request, professor_id):
     # Get filter and sort parameters from GET request
     filter_disciplina = request.GET.get('disciplina', '')
     filter_periodo = request.GET.get('periodo', '')
-    ordenar = request.GET.get('ordenar', 'newest') # Default order
+    ordenar = request.GET.get('ordenar', 'newest')  # Default order
 
     # Apply filtering
     if filter_disciplina:
@@ -78,7 +79,6 @@ def professor_reviews_view(request, professor_id):
     # As opções de filtro devem mostrar todas as opções disponíveis para este professor
     disciplinas = Disciplina.objects.filter(review__professor=professor).distinct().order_by('nome')
     periodos = initial_reviews_queryset.values_list('periodo', flat=True).distinct().order_by('-periodo')
-
 
     # --- 4. Calcular Estatísticas (Usando o queryset TOTAL) ---
     # Aggregate averages
@@ -132,7 +132,7 @@ def professor_reviews_view(request, professor_id):
 
     # --- 5. Processar Reviews e Calcular Contagem de Ícones (do queryset FILTRADO/ORDENADO) ---
     processed_reviews = []
-    for review in filtered_ordered_reviews_queryset: # Itera sobre o queryset filtrado/ordenado
+    for review in filtered_ordered_reviews_queryset:  # Itera sobre o queryset filtrado/ordenado
         review.filled_quality_stars = review.qualidade
         review.empty_quality_stars = 5 - review.qualidade
         review.filled_difficulty_circles = review.dificuldade
@@ -140,7 +140,7 @@ def professor_reviews_view(request, professor_id):
         processed_reviews.append(review)
 
     # --- 6. Paginação (do queryset FILTRADO/ORDENADO) ---
-    paginator = Paginator(processed_reviews, 10) # Pagina a lista processada
+    paginator = Paginator(processed_reviews, 10)  # Pagina a lista processada
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -148,21 +148,21 @@ def professor_reviews_view(request, professor_id):
     # O contexto inclui tanto dados totais (estatísticas) quanto dados filtrados (lista de reviews)
     context = {
         'professor': professor,
-        'reviews': page_obj, # Passa a lista paginada de reviews processados (FILTRADA/ORDENADA)
+        'reviews': page_obj,  # Passa a lista paginada de reviews processados (FILTRADA/ORDENADA)
         'is_paginated': page_obj.has_other_pages(),
         'page_obj': page_obj,
-        'averages': averages, # Estatísticas totais
-        'avg_quality_icons': avg_quality_icons, # Estatísticas totais
-        'avg_difficulty_icons': avg_difficulty_icons, # Estatísticas totais
-        'quality_distribution': full_quality_distribution, # Estatísticas totais
-        'difficulty_distribution': full_difficulty_distribution, # Estatísticas totais
-        'total_reviews': total_reviews, # Estatísticas totais
+        'averages': averages,  # Estatísticas totais
+        'avg_quality_icons': avg_quality_icons,  # Estatísticas totais
+        'avg_difficulty_icons': avg_difficulty_icons,  # Estatísticas totais
+        'quality_distribution': full_quality_distribution,  # Estatísticas totais
+        'difficulty_distribution': full_difficulty_distribution,  # Estatísticas totais
+        'total_reviews': total_reviews,  # Estatísticas totais
         # Passa back current filter/sort values to retain selection in template
         'current_order': ordenar,
         'current_disciplina': filter_disciplina,
         'current_periodo': filter_periodo,
-        'disciplinas': disciplinas, # Disciplinas disponíveis para filtro (TOTAIS)
-        'periodos': periodos, # Períodos disponíveis para filtro (TOTAIS)
+        'disciplinas': disciplinas,  # Disciplinas disponíveis para filtro (TOTAIS)
+        'periodos': periodos,  # Períodos disponíveis para filtro (TOTAIS)
     }
 
     # --- AJAX Detection and Response ---
@@ -180,6 +180,7 @@ def professor_reviews_view(request, professor_id):
     else:
         # Se não for requisição AJAX, renderiza a template completa
         return render(request, 'reviews/single_professor_reviews.html', context)
+
 
 @login_required
 def search_reviews(request):
@@ -203,6 +204,7 @@ def search_reviews(request):
         'professors_found': professors_found
     })
 
+
 @login_required
 def MakeReview(request):
     if request.method == 'POST':
@@ -210,7 +212,7 @@ def MakeReview(request):
         if form.is_valid():
             form.instance.user = 'guest'
             form.save()
-            return redirect('reviews:success')  
+            return redirect('reviews:success')
     else:
         form = ReviewForm()
 
@@ -224,8 +226,9 @@ def MakeReview(request):
         'disciplinas': disciplinas,
         'usuarios': usuarios,
     }
-    
+
     return render(request, 'reviews/make_review.html', context)
+
 
 @login_required
 def MakeReviewSucess(request):

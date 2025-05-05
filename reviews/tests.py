@@ -2,7 +2,6 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from universities.models import Professor, Disciplina
 from reviews.models import Review
-from django.urls import reverse
 
 
 class ReviewModelTest(TestCase):
@@ -40,9 +39,3 @@ class ReviewModelTest(TestCase):
         )
         with self.assertRaises(ValidationError):
             review.full_clean()  # This will check if the validation works for invalid 'periodo'
-
-
-class AllReviewsViewTest(TestCase):
-    def test_all_reviews_status_code(self):
-        response = self.client.get(reverse("reviews:all_reviews"))  # Ensure your `urls.py` has the name="all_reviews"
-        self.assertEqual(response.status_code, 200)

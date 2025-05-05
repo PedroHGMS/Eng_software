@@ -17,15 +17,6 @@
         <h3>ProfReview</h3>
         <h2>Criar Conta</h2>
 
-        {# Exibir mensagens globais do Django (success, error, etc.) #}
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <li class="{{ message.tags }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
         <form method="POST" action="{% url 'users:register' %}"> {# Usando {% url %} com namespace #}
             {% csrf_token %}
 

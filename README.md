@@ -70,6 +70,18 @@ Nosso objetivo é **aumentar a transparência** e ajudar alunos a tomarem **deci
 - Implementar interface de busca no frontend. – **[Arthur]**
 - Implementar lógica de busca no backend. – **[Arthur]**
 
+## Diagramas UML
+
+![Diagrama UML 1](./UML_1.jpeg)
+
+Legenda: Este diagrama representa a estrutura básica do das funcionalidades do sistema.
+
+---
+
+![Diagrama UML 2](./UML_2.jpeg)
+
+Legenda: Este diagrama detalha os atributos e métodos das classes.
+
 ### História 4: Como usuário, eu gostaria de avaliar uma disciplina associada a um professor.
 - Implementar interface de avaliação. – **[Luis]**
 - Implementar lógica de avaliação no backend. – **[Luis]**

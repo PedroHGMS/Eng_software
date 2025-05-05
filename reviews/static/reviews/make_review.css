@@ -96,7 +96,7 @@ form h2 {
 }
 
 .form-group .form-control:focus {
-    border-color: #007bff;
+    border-color: #000;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
@@ -215,7 +215,7 @@ input[type="number"].form-control {
 }
 
 .circle-icon.filled {
-    color: #007bff; /* Cor azul */
+    color: #000; /* Cor azul */
 }
 
 /* --- ESTILOS PARA HOVER PREVIEW (JS adiciona .hover-fill) --- */
@@ -225,7 +225,7 @@ input[type="number"].form-control {
 }
 
 .rating-widget .circle-icon.hover-fill {
-    color: #007bff; /* Azul para círculos no hover preview */
+    color: #000; /* Azul para círculos no hover preview */
 }
 
 /* Garante que o ícone Font Awesome mude para sólido no hover preview */
@@ -328,7 +328,7 @@ input[type="number"].form-control {
     display: inline-flex; /* Usar flexbox para alinhar texto e spinner */
     align-items: center;
     justify-content: center;
-    background-color: #007bff;
+    background-color: #000;
     color: #fff;
     border: none;
     padding: 12px 25px;

@@ -1,31 +1,20 @@
-from django.db.models import Avg, Count, Case, When, BooleanField, Value as V
-from universities.models import Professor, Universidade, Disciplina
-from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
-from django.db.models import Avg, Count
-from django.db.models import Q
-from django.template.loader import render_to_string
-from django.http import JsonResponse
-from .models import Review
-from math import floor, ceil
-
-from django.shortcuts import render, redirect
 from django.db.models import Avg, Count, Case, When, BooleanField, Value as V, Q
 
-from .forms import ReviewForm
-
-from .models import Review
 from universities.models import Professor, Universidade, Disciplina
+from .forms import ReviewForm
+from .models import Review
 
-from django.http import HttpResponse
-
-from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth import logout
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
+from django.template.loader import render_to_string
+from django.http import JsonResponse, HttpResponse
 
+from math import floor, ceil
 
-
+@login_required
 def all_reviews(request):
     professors = Professor.objects.annotate(
         avg_rate=Avg("review__qualidade"),
@@ -214,6 +203,7 @@ def search_reviews(request):
         'professors_found': professors_found
     })
 
+@login_required
 def MakeReview(request):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -237,5 +227,6 @@ def MakeReview(request):
     
     return render(request, 'reviews/make_review.html', context)
 
+@login_required
 def MakeReviewSucess(request):
     return render(request, 'reviews/make_review_success.html')

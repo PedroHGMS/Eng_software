@@ -1,3 +1,5 @@
+/* make_review.css */
+
 /* General Reset */
 * {
     margin: 0;
@@ -7,116 +9,481 @@
 
 /* Body Styles */
 body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f7f9fc;
+    font-family: 'Montserrat', 'Roboto', sans-serif;
+    background-color: #f8f8f8; /* Cor de style.css */
     color: #333;
     line-height: 1.6;
-    padding-top: 80px; /* Add padding to prevent overlap with the top bar */
+    /* Ajuste 80px se sua top-bar tiver altura diferente */
+    padding-top: 80px; /* Espaço para a top-bar fixa */
 }
 
-/* Header Section */
-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 20px 0;
+/* Wrapper principal do conteúdo */
+.main-content-wrapper {
+    width: 100%;
+    max-width: 1200px; /* Limitado à largura máxima do container */
+    margin: 0 auto; /* Centraliza */
+    padding: 0 20px; /* Padding lateral */
+}
+
+/* Título da Página (para estilizar o H1 abaixo da top-bar) */
+.page-title {
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* Espaço abaixo do título */
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
 }
 
-header h1 {
-    font-size: 2.5em;
-    font-weight: 600;
+.page-title h1 {
+     font-size: 1.8rem;
+     font-weight: bold;
+     color: #111;
+     margin: 0;
 }
 
-/* Main Container */
+
+/* Main Form Container */
 .form-container {
     width: 100%;
-    max-width: 800px;
-    margin: 30px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Largura máxima do formulário */
+    margin: 0 auto 30px auto; /* Centraliza e adiciona margem inferior */
+    background-color: #fff; /* Fundo branco */
+    padding: 30px; /* Padding interno */
+    border-radius: 10px; /* Cantos arredondados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
-/* Form Section */
+/* Título do Formulário (H2) */
 form h2 {
-    font-size: 1.8em;
-    color: #333;
+    font-size: 1.4rem;
+    color: #424242; /* Cor cinza escuro */
     margin-bottom: 20px;
-    font-weight: 500;
+    font-weight: bold;
     text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-/* Form Fields */
-.form-fields p {
+/* Container para todos os campos */
+.form-fields {
+    margin-bottom: 20px;
+}
+
+/* Grupo de Campo Individual */
+.form-group {
+    margin-bottom: 20px; /* Espaço entre grupos de campos */
+}
+
+/* Estilo para Labels (dentro do form-group) */
+.form-group label {
+    display: block; /* Labels em sua própria linha */
+    font-weight: bold;
+    color: #555; /* Cor similar a labels de style.css */
+    margin-bottom: 8px; /* Espaço entre label e input/widget */
     font-size: 1em;
-    margin-bottom: 15px;
-    color: #555;
 }
 
-.form-fields input[type="text"],
-.form-fields input[type="email"],
-.form-fields textarea {
+/* Estilo básico para Inputs, Selects e Textareas que têm a classe form-control */
+.form-group .form-control {
+    display: block; /* Ocupa a largura total */
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1em;
-    transition: border-color 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    color: #333;
+    background-color: #fff;
 }
 
-.form-fields input[type="text"]:focus,
-.form-fields input[type="email"]:focus,
-.form-fields textarea:focus {
-    border-color: #007bff;
+.form-group .form-control:focus {
+    border-color: #000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Estilo para Textarea (já tem a classe form-control) */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px; /* Altura mínima */
+    max-height: 300px; /* Altura máxima */
+}
+
+/* --- REMOVER SETAS DE INPUTS NUMÉRICOS (para inputs com classe form-control) --- */
+/* Para Webkit (Chrome, Safari) */
+input[type="number"].form-control::-webkit-outer-spin-button,
+input[type="number"].form-control::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Remove a margem padrão que pode ficar */
+}
+/* Para Firefox */
+input[type="number"].form-control {
+    -moz-appearance: textfield;
+}
+
+
+/* Estilo para mensagens de erro (listas .errorlist) - Aparecem abaixo dos campos */
+.errorlist {
+    color: #dc3545; /* Vermelho de erro */
+    font-size: 0.9em;
+    margin-top: 5px;
+    padding-left: 0; /* Removido padding left padrão de listas */
+    list-style: none; /* Removidos marcadores padrão de listas */
+    display: block; /* Garante que a lista de erro seja um bloco */
+}
+
+.errorlist li {
+    margin-bottom: 3px;
+}
+
+/* Estilo para campos com erro (adicionado por JS) */
+/* Aplica borda vermelha para inputs, selects, textareas COM a classe form-control */
+.form-group .form-control.is-invalid {
+     border-color: #dc3545; /* Borda vermelha */
+     /* box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); Removido sombra no is-invalid direto para evitar duplicidade com o box-shadow no focus + is-invalid */
+}
+/* Sombra vermelha apenas no foco de um campo inválido */
+.form-group .form-control.is-invalid:focus {
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+
+/* Estilo para widget de rating com erro (aplicado ao contêiner .rating-widget) */
+/* Adiciona borda vermelha ao redor do widget E uma sombra no foco */
+.form-group-rating .rating-widget.is-invalid {
+     border: 1px solid #dc3545; /* Adiciona borda vermelha ao redor do widget */
+     padding: 5px; /* Adiciona um pequeno padding para a borda não grudar nos ícones */
+     border-radius: 4px;
+     /* box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); Removido para evitar duplicidade com o focus */
+}
+.form-group-rating .rating-widget.is-invalid:focus-within { /* Usa :focus-within para detectar foco nos filhos */
+     box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+
+/* Estilo para toggle com erro (aplicado ao contêiner .form-group-toggle) */
+/* Adiciona borda vermelha ao redor do grupo E uma sombra no foco */
+.form-group-toggle.is-invalid {
+     border: 1px solid #dc3545;
+     padding: 5px;
+     border-radius: 4px;
+      /* box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); Removido para evitar duplicidade com o focus */
+}
+.form-group-toggle.is-invalid:focus-within { /* Usa :focus-within para detectar foco nos filhos (checkbox, label) */
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+
+/* ===============================
+   Rating Widgets (Estrelas e Círculos)
+   =============================== */
+.form-group-rating {
+    /* Pode adicionar estilos de layout para o grupo de rating aqui */
+}
+
+.rating-widget {
+    display: inline-flex; /* Exibe ícones em linha */
+    align-items: center;
+    gap: 5px; /* Espaço entre ícones */
+    cursor: pointer;
+    margin-top: 5px; /* Espaço abaixo do label */
+    /* Adicionado display: inline-block para que a borda do is-invalid funcione bem */
+    display: inline-block;
+}
+
+/* --- ESCONDE INPUTS ORIGINAIS DE RATING --- */
+/* Usa a classe .form-control para ser mais específico */
+.form-group-rating input.form-control[type="number"],
+.form-group-rating select.form-control {
+    display: none !important; /* Oculta inputs originais de rating */
+}
+
+.star-icon,
+.circle-icon {
+    font-size: 1.8em; /* Tamanho maior para os ícones de rating */
+    color: #ccc; /* Cor padrão (vazio) */
+    transition: color 0.2s ease, transform 0.1s ease;
+}
+
+.star-icon:hover,
+.circle-icon:hover {
+    transform: scale(1.1); /* Levemente maior no hover */
+}
+
+/* Estilos para ícones preenchidos (adicionados por JS no clique) */
+.star-icon.filled {
+    color: #ffc107; /* Cor dourada */
+}
+
+.circle-icon.filled {
+    color: #000; /* Cor azul */
+}
+
+/* --- ESTILOS PARA HOVER PREVIEW (JS adiciona .hover-fill) --- */
+/* Cor no hover preview */
+.rating-widget .star-icon.hover-fill {
+     color: #ffc107; /* Dourado para estrelas no hover preview */
+}
+
+.rating-widget .circle-icon.hover-fill {
+    color: #000; /* Azul para círculos no hover preview */
+}
+
+/* Garante que o ícone Font Awesome mude para sólido no hover preview */
+/* Importante: Use o font-family e font-weight corretos da sua importação do Font Awesome */
+/* As classes .far e .fas são Font Awesome Free, peso 400 e 900 respectivamente */
+/* Se estiver usando outra versão ou tipo (Pro), ajuste font-family e font-weight */
+/* O JS adiciona a classe far, e o CSS muda o content */
+.rating-widget .star-icon.hover-fill.far::before,
+/* Adicionado também para ícones que já são sólidos mas recebem hover-fill */
+.rating-widget .star-icon.hover-fill.fas::before {
+    font-family: "Font Awesome 6 Free"; /* Font Awesome Free */
+    content: "\f005"; /* Unicode para estrela sólida */
+    font-weight: 900; /* Sólido */
+}
+
+.rating-widget .circle-icon.hover-fill.far::before,
+.rating-widget .circle-icon.hover-fill.fas::before {
+    font-family: "Font Awesome 6 Free"; /* Font Awesome Free */
+    content: "\f111"; /* Unicode para círculo sólido */
+    font-weight: 900;
+}
+
+
+/* ===============================
+   Toggle Widget (Presença)
+   =============================== */
+.form-group-toggle {
+    display: flex; /* Usar flexbox para alinhar checkbox e label */
+    align-items: center;
+    /* removido margin-bottom aqui, agora no form-group */
+    gap: 10px; /* Espaço entre o switch visual e o texto do label */
+}
+
+/* Esconde o checkbox nativo */
+.form-group-toggle input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Estilo para o label customizado que atua como switch container */
+.form-group-toggle .toggle-label {
+    display: flex; /* Para alinhar o switch e o texto dentro do label */
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+    font-size: 1em;
+    /* Adicionado para o focus-within no form-group-toggle.is-invalid */
     outline: none;
 }
 
-/* Textarea Styles */
-textarea {
-    resize: vertical;
-    height: 150px;
+/* Estilo para o switch visual (a bolinha e o trilho) */
+.form-group-toggle .toggle-switch {
+    position: relative;
+    width: 40px; /* Largura do switch */
+    height: 22px; /* Altura do switch */
+    background-color: #ccc; /* Cor do trilho (off) */
+    border-radius: 22px; /* Cantos arredondados */
+    transition: background-color 0.3s ease, box-shadow 0.2s ease; /* Transição suave */
+    margin-right: 10px; /* Espaço entre o switch e o texto do label */
+    flex-shrink: 0; /* Não deixa o switch encolher */
 }
 
-/* Submit Button */
+/* Estilo para a bolinha do switch */
+.form-group-toggle .toggle-switch::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 18px; /* Tamanho da bolinha */
+    height: 18px; /* Tamanho da bolinha */
+    background-color: #fff; /* Cor da bolinha */
+    border-radius: 50%;
+    transition: transform 0.3s ease; /* Transição suave */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4); /* Sombra na bolinha */
+}
+
+/* Estilo quando o checkbox (escondido) está marcado */
+.form-group-toggle input[type="checkbox"]:checked + .toggle-label .toggle-switch {
+    background-color: #28a745; /* Cor do trilho (on - verde) */
+}
+
+/* Posição da bolinha quando o checkbox (escondido) está marcado */
+.form-group-toggle input[type="checkbox"]:checked + .toggle-label .toggle-switch::before {
+    transform: translateX(18px); /* Move a bolinha para a direita */
+}
+
+
+/* ===============================
+   Submit Button
+   =============================== */
+.form-group-submit {
+    text-align: center; /* Centraliza o botão dentro do form-group */
+    margin-top: 30px;
+}
+
 .submit-btn {
-    background-color: #007bff;
+    display: inline-flex; /* Usar flexbox para alinhar texto e spinner */
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
     color: #fff;
     border: none;
     padding: 12px 25px;
     font-size: 1.2em;
     cursor: pointer;
     border-radius: 5px;
-    width: 100%;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    font-weight: bold;
+    gap: 10px; /* Espaço entre texto e spinner */
+    min-width: 120px; /* Largura mínima para acomodar o spinner */
 }
 
-.submit-btn:hover {
-    background-color: #007bff;
+.submit-btn:hover:not(:disabled) { /* :not(:disabled) para não mudar cor quando desabilitado */
+    background-color: #0056b3;
 }
 
-/* Form Group Styles */
-.form-group {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+.submit-btn:disabled {
+    opacity: 0.6; /* Menor opacidade quando desabilitado */
+    cursor: not-allowed;
 }
 
-/* Responsive Design */
+/* Spinner de carregamento (escondido por padrão) */
+.submit-btn .loading-spinner {
+    display: none; /* Escondido por padrão */
+    /* O gap já gerencia o espaço */
+}
+
+/* Mostra o spinner quando o botão está desabilitado ou a classe 'submitting' é adicionada */
+.submit-btn:disabled .loading-spinner,
+.submit-btn.submitting .loading-spinner {
+    display: inline-block; /* Mostra o spinner */
+}
+/* Esconde o texto quando está submetendo (opcional) */
+/*
+.submit-btn.submitting:not(:disabled) {
+     font-size: 0; // Esconde o texto
+     padding-left: 30px; // Centraliza spinner se o gap não for suficiente
+     padding-right: 30px;
+}
+.submit-btn.submitting:not(:disabled) .loading-spinner {
+    margin-left: 0; margin-right: 0; // Remove gap para centralizar se texto sumir
+}
+*/
+
+
+/* ===============================
+   Form Messages (Feedback AJAX)
+   =============================== */
+.form-messages {
+    margin-top: 20px; /* Margem superior para separar do botão */
+    margin-bottom: 0; /* Remove margem inferior se for o último elemento no form-container */
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    display: none; /* Escondido por padrão */
+}
+
+/* Estilo para mensagens de sucesso */
+.form-messages.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+/* Estilo para mensagens de erro */
+.form-messages.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* ===============================
+   Responsive Adjustments
+   =============================== */
 @media (max-width: 768px) {
+    /* Ajustes no wrapper principal */
+    .main-content-wrapper {
+         padding: 0 10px; /* Reduzido padding lateral em telas pequenas */
+    }
     .form-container {
-        padding: 20px;
+        padding: 20px; /* Ajustado padding interno */
+        margin-bottom: 20px; /* Ajustado margem inferior */
     }
 
-    .form-fields input[type="text"],
-    .form-fields input[type="email"],
-    .form-fields textarea {
-        font-size: 0.9em;
+    /* Ajustes em títulos */
+    .page-title {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+    }
+    .page-title h1 {
+        font-size: 1.5rem;
     }
 
+    form h2 {
+        font-size: 1.2rem;
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+
+    /* Ajustes nos campos de formulário */
+    .form-group {
+         margin-bottom: 15px;
+    }
+
+    .form-group label {
+         margin-bottom: 5px;
+    }
+
+    .form-group .form-control {
+        padding: 8px; /* Reduzido padding interno dos inputs */
+        font-size: 0.95em; /* Levemente reduzido tamanho da fonte */
+    }
+
+    /* Ajustes Rating Widgets */
+    .star-icon,
+    .circle-icon {
+        font-size: 1.5em; /* Reduzido tamanho em mobile */
+    }
+    .rating-widget {
+         gap: 3px; /* Espaço menor */
+    }
+
+
+    /* Ajustes Toggle Widget */
+    .form-group-toggle {
+        gap: 8px; /* Espaço menor */
+    }
+    .form-group-toggle .toggle-switch {
+        width: 36px; /* Largura menor */
+        height: 20px; /* Altura menor */
+        border-radius: 20px;
+    }
+     .form-group-toggle .toggle-switch::before {
+        width: 16px; /* Bolinha menor */
+        height: 16px;
+        top: 2px;
+        left: 2px;
+     }
+     .form-group-toggle input[type="checkbox"]:checked + .toggle-label .toggle-switch::before {
+        transform: translateX(16px); /* Move bolinha a distancia menor */
+     }
+
+
+    /* Ajustes no botão */
+    .form-group-submit {
+        margin-top: 20px;
+    }
     .submit-btn {
+        padding: 10px 20px;
         font-size: 1em;
+    }
+
+    .form-messages {
+        padding: 10px;
+        margin-top: 15px; /* Ajustado margem superior em mobile */
     }
 }

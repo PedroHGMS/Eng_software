@@ -4,44 +4,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário Django</title>
+    <title>Deixar Avaliação</title> {# Título mais amigável #}
 
+    {# Font Awesome 6.5.0 (usado para ícones) #}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    {# Font Montserrat e Roboto (consistência com style.css) #}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    {# Seu CSS para esta página #}
     <link rel="stylesheet" href="{% static 'reviews/make_review.css' %}">
+    {# Opcional: Adicionar um bloco extra_head se precisar #}
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body>
 
-     <!-- Top Bar Include -->
+    {# Barra Superior Fixa (assumindo que top-bar.html é o header fixo) #}
+    {# Certifique-se que 'reviews/top-bar.html' existe #}
+    {# Se sua top-bar está em outro lugar (ex: includes/top-bar.html), ajuste o caminho #}
     {% include 'reviews/top-bar.html' %}
 
-    <!-- Main Content Wrapper -->
+    {# Wrapper principal do conteúdo #}
     <div class="main-content-wrapper">
-        <!-- Header Section -->
-        <header>
-            <h1>Formulário de Avaliação</h1>
-        </header>
 
-        <!-- Main Form Section -->
+        {# Título da Página #}
+        <div class="page-title"> {# Div para estilizar o título principal #}
+             <h1>Deixar uma Avaliação</h1>
+        </div>
+
+        {# Main Form Section #}
         <main class="form-container">
-            <form method="POST">
+            {# A div de mensagens globais foi movida para DEPOIS da tag <form> #}
+            {# Isso permite que a mensagem global apareça abaixo do formulário #}
+
+
+            <form method="POST" id="review-form" action="."> {# Adicionado ID para o JS, action="." envia para a URL atual #}
                 {% csrf_token %}
-                
-                <h2>Compartilhe sua Avaliação</h2>
-                
-                <!-- Render the Django Form -->
+
+                <h2>Detalhes da Avaliação</h2> {# Título da seção do formulário #}
+
                 <div class="form-fields">
-                    {{ form.as_p }}
-                </div>
+                    {# Ordem desejada: Professor e Disciplina primeiro #}
+
+                    {# Campo Professor #}
+                    <div class="form-group">
+                        {{ form.professor.label_tag }}
+                        {{ form.professor }}
+                        {# ID do errolist deve ser o ID do campo + "_errors". {{ form.professor.id_for_label }} gera o ID do campo input/select/textarea #}
+                        {# A classe errorlist é usada pelo CSS e JS #}
+                        {# Inicialmente vazio, será preenchido pelo JS em caso de erro AJAX #}
+                        <ul class="errorlist" id="{{ form.professor.id_for_label }}_errors">
+                            {# Erros de validação tradicionais do Django seriam exibidos aqui no re-render #}
+                            {# {% for error in form.professor.errors %} <li>{{ error }}</li> {% endfor %} #}
+                        </ul>
+                    </div>
+
+                    {# Campo Disciplina #}
+                    <div class="form-group">
+                        {{ form.disciplina.label_tag }}
+                        {{ form.disciplina }}
+                        <ul class="errorlist" id="{{ form.disciplina.id_for_label }}_errors">
+                             {# {% for error in form.disciplina.errors %} <li>{{ error }}</li> {% endfor %} #}
+                        </ul>
+                    </div>
+
+                    {# --- Campos de Rating Visuais --- #}
+                    {# Campo Dificuldade #}
+                     <div class="form-group form-group-rating">
+                          {{ form.dificuldade.label_tag }}
+                          {# O input original de dificuldade (type="number" ou select). Terá a classe form-control. É escondido pelo CSS. #}
+                          {{ form.dificuldade }}
+                          {# Estrutura para os círculos visuais. data-field-name linka com o input acima. #}
+                          <div class="rating-widget rating-circles" data-field-name="{{ form.dificuldade.name }}" data-max-rating="5">
+                              <i class="far fa-circle circle-icon" data-rating="1"></i>
+                              <i class="far fa-circle circle-icon" data-rating="2"></i>
+                              <i class="far fa-circle circle-icon" data-rating="3"></i>
+                              <i class="far fa-circle circle-icon" data-rating="4"></i>
+                              <i class="far fa-circle circle-icon" data-rating="5"></i>
+                          </div>
+                          {# Lista de erro para este campo. Linkada ao input original pelo ID. #}
+                          <ul class="errorlist" id="{{ form.dificuldade.id_for_label }}_errors">
+                              {# {% for error in form.dificuldade.errors %} <li>{{ error }}</li> {% endfor %} #}
+                          </ul>
+                     </div>
+
+                    {# Campo Qualidade #}
+                    <div class="form-group form-group-rating">
+                         {{ form.qualidade.label_tag }}
+                         {# O input original de qualidade (type="number" ou select). Terá a classe form-control. Escondido. #}
+                         {{ form.qualidade }}
+                         {# Estrutura para as estrelas visuais. data-field-name linka. #}
+                         <div class="rating-widget rating-stars" data-field-name="{{ form.qualidade.name }}" data-max-rating="5">
+                             <i class="far fa-star star-icon" data-rating="1"></i>
+                             <i class="far fa-star star-icon" data-rating="2"></i>
+                             <i class="far fa-star star-icon" data-rating="3"></i>
+                             <i class="far fa-star star-icon" data-rating="4"></i>
+                             <i class="far fa-star star-icon" data-rating="5"></i>
+                         </div>
+                         {# Lista de erro linkada ao input original. #}
+                         <ul class="errorlist" id="{{ form.qualidade.id_for_label }}_errors">
+                              {# {% for error in form.qualidade.errors %} <li>{{ error }}</li> {% endfor %} #}
+                         </ul>
+                    </div>
+
+
+                    {# Campo Nota Obtida #}
+                    <div class="form-group">
+                        {{ form.nota_obtida.label_tag }}
+                        {{ form.nota_obtida }} {# Input type="number". Terá a classe form-control #}
+                        <ul class="errorlist" id="{{ form.nota_obtida.id_for_label }}_errors">
+                             {# {% for error in form.nota_obtida.errors %} <li>{{ error }}</li> {% endfor %} #}
+                        </ul>
+                    </div>
+
+                     {# Campo Presença #}
+                    {# Este form-group encapsula o checkbox nativo e o label customizado com o switch visual #}
+                    <div class="form-group form-group-toggle">
+                         {# O input type="checkbox". NÃO tem a classe form-control por padrão. Escondido pelo CSS. #}
+                         {{ form.presenca }}
+                         {# O label customizado que engloba o switch visual e o texto do label. O 'for' atributo linka ao ID do checkbox nativo. #}
+                         <label for="{{ form.presenca.id_for_label }}" class="toggle-label">
+                              <span class="toggle-switch"></span> {# O switch visual (bolinha e trilho) #}
+                              {{ form.presenca.label }} {# O texto do label (ex: "Presença") #}
+                         </label>
+                         {# Lista de erro linkada ao checkbox nativo pelo ID. #}
+                         <ul class="errorlist" id="{{ form.presenca.id_for_label }}_errors">
+                             {# {% for error in form.presenca.errors %} <li>{{ error }}</li> {% endfor %} #}
+                         </ul>
+                    </div>
+
+
+                    {# Campo Período #}
+                    <div class="form-group">
+                        {{ form.periodo.label_tag }}
+                        {{ form.periodo }} {# Input type="text". Terá a classe form-control #}
+                        <ul class="errorlist" id="{{ form.periodo.id_for_label }}_errors">
+                             {# {% for error in form.periodo.errors %} <li>{{ error }}</li> {% endfor %} #}
+                        </ul>
+                    </div>
+
+                    {# Campo Descrição #}
+                    <div class="form-group">
+                        {{ form.descricao.label_tag }}
+                        {{ form.descricao }} {# Textarea. Terá a classe form-control #}
+                        <ul class="errorlist" id="{{ form.descricao.id_for_label }}_errors">
+                            {# {% for error in form.descricao.errors %} <li>{{ error }}</li> {% endfor %} #}
+                        </ul>
+                    </div>
+
+                     {# Handle Non-field errors (erros que não se aplicam a um campo específico) #}
+                    {# {% if form.non_field_errors %} #}
+                    {# <ul class="errorlist non-field-errors"> #}
+                         {# {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %} #}
+                    {# </ul> #}
+                    {# {% endif %} #}
+                     {# Nota: O JS atual foca em erros de campo, mas pode ser estendido para non_field_errors #}
+                     {# Se houver non_field_errors em uma submissão AJAX inválida, eles não serão exibidos #}
+                     {# explicitamente por campo, mas a mensagem global "corrija os erros" aparecerá. #}
+
+
+                </div> {# Fim .form-fields #}
 
                 <!-- Submit Button -->
-                <div class="form-group">
-                    <input type="submit" value="Enviar" class="submit-btn">
+                <div class="form-group form-group-submit">
+                    <button type="submit" class="submit-btn">
+                         Enviar
+                         {# Indicador de carregamento (escondido por padrão) #}
+                         <i class="fas fa-spinner fa-spin loading-spinner"></i>
+                    </button>
                 </div>
             </form>
+             {# A div de mensagens globais foi movida para aqui (DEPOIS do form) #}
+             {# Esta div é usada pelo JS para exibir mensagens de sucesso ou erro geral #}
+            <div id="form-messages" class="form-messages" style="display: none;"></div> {# Escondido por padrão #}
         </main>
     </div>
+
+    {# Footer #}
+    {# Certifique-se que 'reviews/includes/footer.html' existe #}
+    {% include 'reviews/includes/footer.html' %}
+
+    {# Seu JavaScript para este formulário #}
+    <script src="{% static 'reviews/make_review.js' %}"></script>
+    {# Opcional: Bloco extra_body_scripts #}
+    {% block extra_body_scripts %}{% endblock %}
 </body>
 
 </html>

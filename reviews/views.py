@@ -21,32 +21,6 @@ from math import floor
 # Obtém o modelo de usuário ativo (auth.User ou modelo customizado)
 User = get_user_model()
 
-
-@login_required
-def all_reviews(request):
-    professors = Professor.objects.annotate(
-        avg_rate=Avg("review__qualidade"),
-        total_reviews=Count("review", distinct=True),
-        total_subjects=Count("review__disciplina", distinct=True)
-    ).filter(total_reviews__gt=0).order_by("?")
-
-    top_disciplinas = Disciplina.objects.annotate(
-        avg_quality=Avg("review__qualidade"),
-        total_reviews=Count("review")
-    ).filter(total_reviews__gt=0).order_by("-avg_quality")[:5]
-
-    top_universidades = Universidade.objects.annotate(
-        avg_quality=Avg("professor__review__qualidade"),
-        total_reviews=Count("professor__review")
-    ).filter(total_reviews__gt=0).order_by("-avg_quality")[:5]
-
-    return render(request, "reviews/reviews.html", {
-        "professors": professors,
-        "top_disciplinas": top_disciplinas,
-        "top_universidades": top_universidades,
-    })
-
-
 @login_required
 def all_reviews(request):
     professors = Professor.objects.annotate(

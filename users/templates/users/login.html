@@ -7,53 +7,102 @@
     <title>Login - ProfReview</title>
     <link rel="stylesheet" href="{% static 'users/login.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    {# Opcional: Se o footer inline ainda depender da classe .container do seu style.css, inclua ele aqui #}
+    {# <link rel="stylesheet" href="{% static 'reviews/style.css' %}"> #}
 </head>
 <body>
     <div class="login-container">
         <h3>ProfReview</h3>
         <h2>Entrar</h2>
 
-        <form method="POST" action="/login/">
+        {# Usando o objeto 'form' passado pela view (assumindo que você modificou a view para passar o form) #}
+        {# Se você NÃO modificou a view para usar o form object (como no snippet anterior), remova o bloco {% if form %}/{% else %} e use APENAS os inputs diretos, garantindo que os names="" estejam corretos para sua view manual (email, senha). RECOMENDO usar o form object. #}
+
+        {# Supondo que a sua view DE FATO esteja passando um form object com campos 'username' e 'password' #}
+        {# e que você queira usar a sintaxe {{ form.field }} (abordagem recomendada) #}
+        <form method="POST" action="{% url 'users:login' %}"> {# ALTERADO: Use {% url %} com o nome correto da URL #}
             {% csrf_token %}
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
 
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" name="senha" required>
+            {# Se a view passa um 'form' object (recomendado) #}
+            {% if form %}
+                 {# Campo Username/Email (o rótulo é definido no forms.py) #}
+                 <div class="form-group">
+                     {{ form.username.label_tag }}
+                     {{ form.username }}
+                     {% if form.username.errors %}
+                         <ul class="errorlist">
+                             {% for error in form.username.errors %}
+                                 <li>{{ error }}</li>
+                             {% endfor %}
+                         </ul>
+                     {% endif %}
+                 </div>
 
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                            <li class="{{ message.tags }}">{{ message }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                 {# Campo Senha #}
+                 <div class="form-group">
+                     {{ form.password.label_tag }}
+                     {{ form.password }}
+                     {% if form.password.errors %}
+                         <ul class="errorlist">
+                             {% for error in form.password.errors %}
+                                 <li>{{ error }}</li>
+                             {% endfor %}
+                         </ul>
+                     {% endif %}
+                 </div>
+
+                 {# Exibir erros não associados a campos específicos (geral) #}
+                 {% if form.non_field_errors %}
+                     <ul class="errorlist non-field-errors">
+                         {% for error in form.non_field_errors %}
+                             <li>{{ error }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+             {% else %}
+                 {# --- Fallback se a view NÃO passa um 'form' object --- #}
+                 {# Manter os inputs manuais, mas usar names="username" e name="password" para compatibilidade com AuthenticationForm/authenticate #}
+                 {# OU manter names="email" e name="senha" e garantir que a sua view manual use request.POST.get('email'), request.POST.get('senha') e authenticate(..., username=user_obj.username, password=senha) #}
+                 {# O snippet de view manual anterior USAVA email/senha, então VOU manter email/senha aqui para COERÊNCIA com aquele snippet #}
+                 {# Mas a action TEM que ser {% url 'users:login' %} que resolve para /login/ #}
+
+                 <div class="form-group">
+                    <label for="email">Email</label> {# Rótulo indicando email #}
+                    <input type="email" id="email" name="email" required class="form-control"> {# input name="email" para o snippet de view manual #}
+                </div>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" required class="form-control"> {# input name="senha" para o snippet de view manual #}
+                </div>
+                {# Erros de campo ou não-campo não serão exibidos aqui sem o form object #}
+
+             {% endif %}
+
 
             <button type="submit">Entrar</button>
         </form>
 
         <div class="register-link">
-            <a href="/cadastro/">Criar uma conta</a>
+            Não tem uma conta? <a href="{% url 'users:register' %}">Criar uma conta</a> {# Link para a nova página de cadastro #}
         </div>
     </div>
 
     <div class="presentation">
         <div class="presentation-block">
-            <img src="{% static 'users/anonimous.png' %}" alt="Anônimo">
+            <img src="{% static 'users/anonimous.png' %}" alt="Anônimo"> {# Verifique o caminho da imagem #}
             <p>Avalie disciplinas e professores anonimamente</p>
         </div>
 
         <div class="presentation-block reverse">
             <p>Tenha mais previsibilidade sobre o seu semestre</p>
-            <img src="{% static 'users/previsibility.png' %}" alt="Previsibilidade">
+            <img src="{% static 'users/previsibility.png' %}" alt="Previsibilidade"> {# Verifique o caminho da imagem #}
         </div>
 
         <div class="presentation-block">
-            <img src="{% static 'users/planning.png' %}" alt="Planejamento">
+            <img src="{% static 'users/planning.png' %}" alt="Planejamento"> {# Verifique o caminho da imagem #}
             <p>Escolha melhores disciplinas para cursar</p>
         </div>
     </div>
+
 </body>
 </html>

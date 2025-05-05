@@ -1,0 +1,251 @@
+/* users/static/users/registration.css */
+
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f8f8; /* Cor de fundo leve */
+    color: #333;
+    display: flex; /* Usar flexbox para layout */
+    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center; /* Centralizar verticalmente */
+    min-height: 100vh; /* Ocupar a altura total da viewport */
+    padding: 20px; /* Padding para telas pequenas */
+}
+
+/* Estilo do container principal (formulário) */
+.registration-container {
+    background-color: #fff; /* Fundo branco */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Largura máxima do formulário */
+    text-align: center; /* Centraliza conteúdo */
+    margin: auto; /* Centraliza mesmo sem flexbox no body */
+    /* Adicionado para posicionamento no layout flex do body */
+    flex-shrink: 0; /* Não permite encolher mais que o conteúdo */
+    z-index: 1; /* Para ficar acima dos blocos de apresentação em mobile */
+    position: relative; /* Necessário para z-index */
+}
+
+.registration-container h3 {
+    color: #000; /* Cor de destaque */
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.registration-container h2 {
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 1.8rem;
+}
+
+/* Estilo para cada grupo de campo do formulário */
+.form-group {
+    margin-bottom: 15px; /* Espaço entre campos */
+    text-align: left; /* Alinha labels e inputs à esquerda */
+}
+
+.form-group label {
+    display: block; /* Cada label em sua própria linha */
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* Estilo para inputs e textareas (usando a classe form-control do forms.py) */
+.form-group .form-control {
+    width: 100%; /* Ocupa a largura total do container */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    transition: border-color 0.3s ease;
+}
+
+.form-group .form-control:focus {
+    border-color: #000;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Estilo para mensagens de erro (lista .errorlist) */
+.errorlist {
+    color: #dc3545; /* Vermelho de erro */
+    font-size: 0.9em;
+    margin-top: 5px;
+    padding-left: 0;
+    list-style: none; /* Remove marcadores de lista */
+    display: block;
+}
+
+.errorlist li {
+    margin-bottom: 3px;
+}
+
+/* Estilo para campos com erro (adicionado por JS ou Django se não for AJAX) */
+/* A classe is-invalid pode ser adicionada a .form-control */
+.form-group .form-control.is-invalid {
+    border-color: #dc3545;
+}
+.form-group .form-control.is-invalid:focus {
+    box-shadow: 0 0 5px rgba(220, 53, 69, 0.5);
+}
+
+
+/* Estilo para a lista de mensagens globais do Django */
+ul.messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+ul.messages li {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Estilo para mensagens de sucesso */
+ul.messages li.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Estilo para mensagens de erro */
+ul.messages li.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+/* Estilo para mensagens de alerta/aviso */
+ul.messages li.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+/* Estilo para mensagens de informação */
+ul.messages li.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+
+/* Estilo do botão de submit */
+button[type="submit"] {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Ocupa a largura total */
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+button[type="submit"]:disabled {
+     opacity: 0.6;
+     cursor: not-allowed;
+}
+
+
+/* Estilo para o link "Já tem uma conta?" */
+.login-link {
+    margin-top: 20px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.login-link a {
+    color: #000;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+
+/* --- Presentation Blocks --- */
+.presentation {
+    display: none; /* Escondido por padrão em mobile */
+    /* Configuração para desktop */
+    margin-left: 50px; /* Espaço entre formulário e blocos */
+    max-width: 500px;
+    flex-direction: column; /* Disposição em coluna */
+    gap: 30px; /* Espaço entre os blocos */
+}
+
+.presentation-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #e9ecef; /* Fundo leve */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.presentation-block img {
+    width: 80px; /* Tamanho das imagens */
+    height: auto;
+}
+
+.presentation-block p {
+    font-size: 1.1em;
+    color: #495057;
+    flex-grow: 1; /* Permite que o parágrafo ocupe espaço */
+}
+
+.presentation-block.reverse {
+     flex-direction: row-reverse; /* Inverte ordem imagem/texto */
+     text-align: right; /* Alinha texto à direita */
+}
+
+/* --- Media Query para desktop --- */
+@media (min-width: 768px) {
+    body {
+        flex-direction: row; /* Disposição em linha para desktop */
+        align-items: flex-start; /* Alinha topo */
+        padding: 50px 20px; /* Mais padding em desktop */
+    }
+
+    .registration-container {
+        margin: 0; /* Remove margin auto quando flexbox está ativo */
+        min-width: 350px; /* Largura mínima para evitar que encolha demais */
+    }
+
+    .presentation {
+        display: flex; /* Mostra os blocos em desktop */
+    }
+}
+
+/* Estilo específico para o helptext do Django */
+.helptext {
+    font-size: 0.85em;
+    color: #6c757d;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Estilo para erros não associados a campos (non-field errors) */
+.errorlist.non-field-errors {
+     margin-bottom: 15px;
+}

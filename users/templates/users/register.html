@@ -1,0 +1,135 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - ProfReview</title>
+    {# Links para CSS #}
+    <link rel="stylesheet" href="{% static 'users/registration.css' %}">
+    {# Link para fontes (se usadas no design) #}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    {# Opcional: se precisar de algum CSS global como reset ou base, link aqui #}
+    {# <link rel="stylesheet" href="{% static 'css/base.css' %}"> #}
+</head>
+<body>
+    <div class="registration-container">
+        <h3>ProfReview</h3>
+        <h2>Criar Conta</h2>
+
+        {# Exibir mensagens globais do Django (success, error, etc.) #}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form method="POST" action="{% url 'users:register' %}"> {# Usando {% url %} com namespace #}
+            {% csrf_token %}
+
+            {# Renderiza campos do formulário manualmente para controle de CSS #}
+            {# UserCreationForm padrão tem: username, password, password_confirmation #}
+            {# Nosso CustomUserCreationForm adiciona: email #}
+
+            {# Campo Username #}
+            <div class="form-group"> {# Usando form-group para consistência com make_review #}
+                 {{ form.username.label_tag }}
+                 {{ form.username }}
+                 {# Exibe erros específicos do campo username #}
+                 {% if form.username.errors %}
+                     <ul class="errorlist">
+                         {% for error in form.username.errors %}
+                             <li>{{ error }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+            </div>
+
+            {# Campo Email #}
+             <div class="form-group">
+                 {{ form.email.label_tag }}
+                 {{ form.email }}
+                 {# Exibe erros específicos do campo email #}
+                 {% if form.email.errors %}
+                     <ul class="errorlist">
+                         {% for error in form.email.errors %}
+                             <li>{{ error }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+             </div>
+
+            {# Campo Senha (password1) #}
+            <div class="form-group">
+                 {{ form.password1.label_tag }}
+                 {{ form.password1 }}
+                 {# Exibe erros específicos do campo password1 #}
+                 {% if form.password1.errors %}
+                     <ul class="errorlist">
+                         {% for error in form.password1.errors %}
+                             <li>{{ error }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+                 {# Dica de senha do Django (opcional) #}
+                 {% if form.password1.help_text %}
+                      <p class="helptext">{{ form.password1.help_text|safe }}</p>
+                 {% endif %}
+            </div>
+
+            {# Campo Confirme a Senha (password2) #}
+             <div class="form-group">
+                 {{ form.password2.label_tag }}
+                 {{ form.password2 }}
+                 {# Exibe erros específicos do campo password2 #}
+                 {% if form.password2.errors %}
+                     <ul class="errorlist">
+                         {% for error in form.password2.errors %}
+                             <li>{{ error }}</li>
+                         {% endfor %}
+                     </ul>
+                 {% endif %}
+             </div>
+
+            {# Exibir erros não associados a campos específicos (geral) #}
+            {% if form.non_field_errors %}
+                <ul class="errorlist non-field-errors">
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <div class="login-link"> {# Link para a página de login #}
+            Já tem uma conta? <a href="{% url 'users:login' %}">Entrar</a> {# Usando {% url %} com namespace #}
+        </div>
+    </div>
+
+    {# Incluir blocos de apresentação se necessário #}
+    <div class="presentation">
+        <div class="presentation-block">
+            <img src="{% static 'users/anonimous.png' %}" alt="Anônimo"> {# Verifique o caminho da imagem #}
+            <p>Avalie disciplinas e professores anonimamente</p>
+        </div>
+
+        <div class="presentation-block reverse">
+            <p>Tenha mais previsibilidade sobre o seu semestre</p>
+            <img src="{% static 'users/previsibility.png' %}" alt="Previsibilidade"> {# Verifique o caminho da imagem #}
+        </div>
+
+        <div class="presentation-block">
+            <img src="{% static 'users/planning.png' %}" alt="Planejamento"> {# Verifique o caminho da imagem #}
+            <p>Escolha melhores disciplinas para cursar</p>
+        </div>
+    </div>
+
+    {# Opcional: Link para seu JS (se for adicionar AJAX ou validação customizada) #}
+    {# <script src="{% static 'users/registration.js' %}"></script> #}
+</body>
+</html>

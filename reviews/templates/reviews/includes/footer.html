@@ -1,6 +1,10 @@
 {# {% load static %} #}
-<footer class="site-footer">
+
+{# Código do footer com estilos inline #}
+<footer style="background-color: #333; color: #fff; text-align: center; padding: 1.5rem 0; margin-top: 50px; font-size: 0.9em;">
+    {# O div.container ainda depende do CSS principal para max-width, margin auto e padding lateral #}
     <div class="container">
-        <p>© {% now "Y" %} ProfReview. Todos os direitos reservados.</p>
+        {# O parágrafo tem margem zerada, definida inline #}
+        <p style="margin: 0;">© {% now "Y" %} ProfReview. Todos os direitos reservados.</p>
     </div>
 </footer>

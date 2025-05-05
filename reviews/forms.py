@@ -11,16 +11,6 @@ class ReviewForm(forms.ModelForm):
         # Liste todos os campos que vêm do input direto do usuário.
         # NÃO inclua 'usuario' aqui, pois ele será atribuído manualmente na view para o usuário logado.
         fields = ['dificuldade', 'qualidade', 'descricao', 'nota_obtida', 'presenca', 'periodo', 'professor', 'disciplina']
-        # Ajuste os widgets padrão para alguns campos para melhor controle HTML/JS se necessário
-        # Por exemplo, você pode querer que 'dificuldade' e 'qualidade' sejam number inputs
-        # mesmo que o modelo permita outros tipos, para que o JS de rating funcione bem.
-        # widgets = {
-        #     'dificuldade': forms.NumberInput(attrs={'min': 1, 'max': 5}),
-        #     'qualidade': forms.NumberInput(attrs={'min': 1, 'max': 5}),
-        #     'nota_obtida': forms.NumberInput(attrs={'step': '0.1'}), # Exemplo: permitir notas decimais
-        #     'descricao': forms.Textarea(attrs={'rows': 4}), # Exemplo: definir altura padrão
-        # }
-
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados da Busca por "{{ query }}"</title> {# Updated title #}
+
+    {# Link to the specific CSS for the included top bar component #}
+    <link rel="stylesheet" href="{% static 'reviews/top-bar.css' %}">
+
+    {# Add Font Awesome if not loaded globally (adjust path/CDN if needed) #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    {# Add Montserrat font (same as in the first file) #}
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif; /* Apply Montserrat font to the body */
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px; 
+            font-size: 26px; 
+        }
+
+        .result-count {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #888;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .professor-result {
+            background-color: #fdfdfd;
+            border-radius: 8px;
+            padding: 18px 22px;
+            margin-bottom: 15px;
+            border-left: 4px solid #2980b9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.2s ease;
+        }
+         .professor-result:hover {
+            background-color: #f9f9f9;
+            transition: background-color 0.2s ease;
+        }
+
+        .professor-link {
+            display: block;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: color 0.2s ease;
+        }
+
+        .professor-link:hover {
+            color: #2980b9;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px 15px;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    {# Include the standard top bar component #}
+    {% include 'reviews/top-bar.html' %}
+
+    {# Main content area for search results #}
+    <div class="container">
+
+        {# Heading for the results page #}
+        <h1>Resultados da Busca</h1>
+
+        {# Display the search query and result count #}
+        {% if query %}
+            <div class="result-count">
+                {% if professors_found %}
+                    {% if professors_found|length == 1 %}
+                        {{ professors_found|length }} professor encontrado para "<strong>{{ query }}</strong>"
+                    {% else %}
+                        {{ professors_found|length }} professores encontrados para "<strong>{{ query }}</strong>"
+                    {% endif %}
+                {% else %}
+                    Nenhum professor ou disciplina encontrada para "<strong>{{ query }}</strong>".
+                {% endif %}
+            </div>
+        {% endif %}
+
+
+        {# Display professor results if found #}
+        {% if professors_found %}
+            {# Loop through the unique professors found #}
+            {% for professor in professors_found %}
+                <div class="professor-result">
+                    <a href="{% url 'reviews:professor_reviews' professor_id=professor.id %}" class="professor-link">
+                        {{ professor.name }}
+                    </a>
+                    {# Optional: Add other details here if needed #}
+                </div>
+            {% endfor %}
+        {% elif query %}
+            {# Message moved to result-count area above, but you could keep a simplified one here #}
+            {# <p class="no-results">Tente refinar sua busca.</p> #}
+        {% else %}
+             {# Optional: Message if the page is accessed without a query (e.g., /search/ directly) #}
+             <p class="no-results">Use a barra de busca acima para encontrar professores ou disciplinas.</p>
+        {% endif %}
+
+    </div> {# End of container #}
+
+</body>
+</html>

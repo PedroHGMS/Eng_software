@@ -1,0 +1,714 @@
+/* styles.css */
+
+/* ===============================
+   General Styles
+   =============================== */
+   body {
+    font-family: 'Roboto', sans-serif; /* Usa a fonte Roboto do Google Fonts */
+    line-height: 1.6; /* Espaçamento entre linhas */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8; /* Um cinza claro suave para o fundo */
+    color: #333; /* Cor do texto principal (cinza escuro) */
+}
+
+/* Container para centralizar e limitar a largura do conteúdo */
+.container {
+    max-width: 1200px; /* Largura máxima do conteúdo */
+    margin: 0 auto; /* Centraliza o container na página */
+    padding: 0 20px; /* Adiciona padding nas laterais */
+}
+
+/* ===============================
+   Header Styles
+   =============================== */
+.site-header {
+    background-color: #0056b3; /* Cor de fundo azul escuro */
+    color: #fff; /* Cor do texto (branco) */
+    padding: 1.2rem 0; /* Padding vertical */
+    margin-bottom: 30px; /* Margem na parte inferior */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Sombra sutil */
+}
+
+.site-header h1 {
+    margin: 0;
+    font-size: 2rem; /* Tamanho da fonte do título principal */
+    text-align: center; /* Centraliza o título */
+    letter-spacing: 1px; /* Espaçamento entre letras */
+}
+
+.nav-list {
+    list-style: none; /* Remove marcadores de lista (bullets) */
+    padding: 0;
+    margin: 15px 0 0 0; /* Margem no topo */
+    text-align: center; /* Centraliza os itens da lista */
+}
+
+.nav-list li {
+    display: inline-block; /* Exibe os itens na horizontal */
+    margin: 0 15px; /* Espaço entre os itens da lista */
+}
+
+.nav-link {
+    color: #fff; /* Cor do link (branco) */
+    text-decoration: none; /* Remove sublinhado */
+    font-weight: bold;
+    font-size: 1.1em; /* Tamanho da fonte */
+    transition: color 0.3s ease; /* Transição suave na cor ao passar o mouse */
+}
+
+.nav-link i { /* Estilo para ícones em links de navegação */
+    margin-right: 5px; /* Espaço à direita do ícone */
+}
+
+.nav-link:hover {
+    color: #a0cfff; /* Cor mais clara ao passar o mouse */
+}
+
+/* ===============================
+   Main Content Area
+   =============================== */
+.content-area {
+    background-color: #fff; /* Cor de fundo (branco) */
+    padding: 30px; /* Padding interno */
+    border-radius: 10px; /* Cantos arredondados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra */
+    margin-bottom: 30px;
+}
+
+.content-area h2 {
+    color: #0056b3; /* Cor azul para o subtítulo */
+    border-bottom: 2px solid #eee; /* Borda inferior */
+    padding-bottom: 15px; /* Padding abaixo do título */
+    margin-top: 0;
+    margin-bottom: 30px; /* Margem abaixo do título */
+    font-size: 1.8rem;
+}
+
+/* Estilo para a universidade abaixo do nome do professor */
+.professor-university {
+    margin-top: -20px; /* Ajusta a margem para que fique mais perto do nome */
+    margin-bottom: 30px; /* Mantém a margem abaixo para separar das estatísticas */
+    color: #555; /* Cor cinza */
+    font-size: 1.1em; /* Tamanho da fonte um pouco menor que o h2 */
+    text-align: left; /* Centraliza o texto */
+}
+
+.professor-university i {
+    margin-right: 8px; /* Espaço entre o ícone e o nome da universidade */
+    color: #007bff; /* Cor azul para o ícone */
+}
+
+
+/* ===============================
+   Statistics Section
+   =============================== */
+.statistics-section {
+    margin-bottom: 30px; /* Margem abaixo */
+    padding-bottom: 20px; /* Padding abaixo */
+    border-bottom: 1px dashed #ccc; /* Separador */
+}
+
+.statistics-section h3 {
+    color: #333; /* Cor do título da seção */
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    display: flex; /* Usar flexbox para alinhar título e contagem */
+    align-items: center; /* Alinhar verticalmente */
+    gap: 10px; /* Espaço entre título e contagem */
+}
+
+.statistics-section h3 i { /* Ícone no título da seção de estatísticas */
+     margin-right: 0; /* Remover margem extra aqui */
+     color: #007bff; /* Cor azul para o ícone */
+}
+
+.total-count {
+    font-size: 0.9em;
+    color: #777;
+    font-weight: normal;
+}
+
+
+.stats-grid {
+    display: grid; /* Usar CSS Grid para layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Duas colunas responsivas */
+    gap: 40px; /* Espaço entre as colunas do grid */
+}
+
+.avg-stats, .distribution-stats {
+    background-color: #fefefe; /* Cor de fundo levemente diferente */
+    padding: 25px; /* Padding interno */
+    border-radius: 10px; /* Cantos arredondados */
+    border: 1px solid #eee;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05); /* Sombra sutil */
+}
+
+.avg-stats h4, .distribution-stats h4 {
+    margin-top: 0;
+    color: #0056b3; /* Cor azul para os subtítulos */
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 18px;
+    font-size: 1.2rem;
+}
+
+.avg-stats h4 i, .distribution-stats h4 i { /* Ícones nos títulos dos blocos de estatísticas */
+    margin-right: 8px;
+    color: #007bff;
+}
+
+/* Estilos para as visualizações de média (estrelas/círculos) */
+.avg-stats .avg-visual-icons {
+    margin-top: 10px;
+    margin-bottom: 15px; /* Espaço abaixo dos ícones da média */
+    display: flex; /* Usar flexbox para alinhar ícones */
+    align-items: center;
+}
+
+.avg-stats .avg-visual-icons i {
+    font-size: 1.2em; /* Tamanho maior para ícones de média */
+    margin-right: 2px; /* Espaço menor entre ícones */
+}
+
+/* Estilo para ícones de meia estrela (Qualidade Média) */
+.avg-stats .avg-visual-icons .fa-star-half-alt {
+    /* Não precisa de estilo especial aqui, a cor já é .star-filled */
+}
+
+
+.distribution-stats .dist-list {
+    margin-bottom: 25px; /* Espaço entre as listas de distribuição (Qualidade/Dificuldade) */
+}
+
+.distribution-stats .dist-list:last-child {
+    margin-bottom: 0; /* Remove margem da última lista */
+}
+
+.distribution-stats .dist-list h5 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1em;
+    font-weight: normal;
+    border-bottom: 1px dashed #eee; /* Separador leve */
+    padding-bottom: 5px;
+}
+
+
+/* Estilos para o Histograma visual (barras de CSS) */
+.histogram {
+    margin-top: 10px;
+}
+
+.histogram-row {
+    display: flex; /* Usar flexbox para alinhar elementos na linha */
+    align-items: center; /* Alinhar verticalmente */
+    margin-bottom: 4px; /* Espaço menor entre linhas */
+    font-size: 0.95em;
+}
+
+.score-label {
+    width: 25px; /* Largura fixa para o rótulo da nota (ex: "3:") */
+    text-align: right;
+    margin-right: 8px;
+    font-weight: bold;
+    color: #555;
+    flex-shrink: 0; /* Impede que o rótulo encolha */
+}
+
+.bar-container {
+    flex-grow: 1; /* Permite que o container da barra ocupe o espaço restante */
+    height: 18px; /* Altura da barra */
+    background-color: #e9e9e9; /* Cor de fundo para a parte vazia da barra */
+    border-radius: 3px;
+    overflow: hidden; /* Garante que a barra colorida fique dentro dos limites */
+}
+
+.bar {
+    height: 100%; /* A barra colorida preenche a altura do container */
+    background-color: #007bff; /* Cor azul para a barra preenchida */
+    border-radius: 3px;
+    /* A largura é definida inline no HTML usando a porcentagem */
+    transition: width 0.5s ease; /* Transição suave na largura (efeito visual) */
+}
+
+.count-label {
+    width: auto; /* Largura automática */
+    min-width: 80px; /* Largura mínima para o rótulo de contagem (ex: "10 reviews") */
+    margin-left: 8px;
+    text-align: left;
+    color: #555;
+    flex-shrink: 0; /* Impede que o rótulo encolha */
+}
+
+.distribution-stats .dist-list > p { /* Estilo para a mensagem "Nenhum dado" dentro da lista de distribuição */
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 10px;
+}
+
+
+/* ===============================
+   Interactivity Area
+   =============================== */
+.interactivity-area {
+    margin-top: 30px; /* Espaço acima da seção */
+    margin-bottom: 30px; /* Espaço abaixo da seção */
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.interactivity-area form {
+     margin-bottom: 15px; /* Espaço entre o formulário e o botão adicionar (se estiver fora) */
+     /* Removido display:flex e gap daqui */
+}
+
+.add-review-button {
+    text-align: center; /* Centraliza o botão "Adicionar Review" */
+}
+
+/* Estilo Básico de Botão */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Cor azul primária */
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Azul mais escuro no hover */
+}
+
+/* Novo estilo de botão secundário (para Aplicar Filtros/Ordenação) */
+.btn-secondary {
+    background-color: #6c757d; /* Cor cinza */
+    color: #fff;
+    border: 1px solid #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Cinza mais escuro no hover */
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+
+.filter-sort-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Ou 5px se necessário */
+    align-items: center;
+    /* justify-content: flex-start; */
+}
+
+.filter-options,
+.sort-options {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex-grow: 0;
+    /* flex-shrink: 0; Removido para permitir encolher em desktop */
+}
+
+
+.filter-sort-area label {
+    font-weight: bold;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.filter-sort-area select {
+    padding: 8px 10px;
+    border: 1px solid #ccc; /* Alterado de #db1212 para #ccc - borda vermelha parecia erro */
+    border-radius: 4px;
+    font-size: 1em;
+    min-width: 80px; /* Permitir menor largura */
+    max-width: 250px; /* Limitar largura em telas muito grandes */
+}
+
+/* Estilo específico para o botão "Aplicar Filtros/Ordenação" dentro de .filter-sort-area */
+.filter-sort-area .btn-secondary {
+     /* flex-grow: 0; Removido para permitir encolher em desktop */
+     /* flex-shrink: 0; Removido para permitir encolher em desktop */
+     padding: 10px 12px; /* Ajustado para ícone */
+}
+
+.filter-sort-area .btn-secondary i {
+    margin-right: 0; /* Remove a margem direita da regra geral .btn i */
+    margin-left: 0;  /* Garante que não há margem na esquerda também */
+}
+
+
+/* ===============================
+   Individual Reviews Section
+   =============================== */
+.reviews-list {
+     margin-top: 30px; /* Margem no topo da seção */
+}
+
+.reviews-list h3 { /* Título da seção "Reviews Individuais" */
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 1.4rem;
+}
+
+/* Container para os cards de review */
+#reviews-container { /* O container que o JS atualiza */
+    /* display: grid; - Removido do container e movido para a classe reviews-stacked */
+    /* gap: 25px; - Removido do container e movido para a classe reviews-stacked */
+     /* Adiciona um min-height para evitar colapso total enquanto carrega */
+    min-height: 100px;
+}
+
+
+/* NOVO LAYOUT PARA REVIEWS INDIVIDUAIS - EMPILHADOS (Aplicado a um div interno) */
+/* Esta classe é aplicada à div review-items-container DENTRO de #reviews-container */
+.review-items-container.reviews-stacked {
+    display: flex; /* Usar flexbox */
+    flex-direction: column; /* Empilhar verticalmente */
+    gap: 25px; /* Espaço entre os cards */
+}
+
+.review-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 25px; /* Padding padrão */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    width: 100%; /* Ocupa toda a largura disponível */
+}
+
+.review-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+    font-size: 1.1em;
+    font-weight: bold;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.review-quality,
+.review-difficulty {
+     display: flex;
+     align-items: center;
+     gap: 5px;
+}
+
+/* Estilos para Ícones de Estrelas e Círculos */
+.star-filled {
+    color: #ffc107; /* Cor dourada para estrelas preenchidas */
+}
+.star-empty {
+    color: #ccc; /* Cor cinza claro para estrelas vazias */
+}
+
+.difficulty-filled {
+    color: #007bff; /* Cor azul para círculos preenchidos */
+}
+.difficulty-empty {
+     color: #ccc; /* Cor cinza claro para círculos vazios */
+}
+
+.review-quality i.fas,
+.review-quality i.far {
+    font-size: 1em;
+}
+
+.review-difficulty i.fas,
+.review-difficulty i.far {
+    font-size: 0.8em;
+}
+
+
+.review-description {
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.review-description h4 {
+    margin: 0 0 10px 0;
+    color: #0056b3;
+    font-size: 1.15em;
+}
+
+.review-description p {
+    margin: 0;
+    font-style: normal;
+    padding: 20px; /* Padding padrão */
+    background-color: #eef;
+    border-left: 5px solid #007bff;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.8;
+    color: #444;
+    font-size: 1em;
+}
+
+.review-details {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.review-details p {
+    margin: 8px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.review-details p i {
+    margin-right: 0;
+    color: #007bff;
+    flex-shrink: 0;
+}
+
+
+.review-details strong {
+     color: #333;
+     font-weight: normal;
+}
+
+.review-actions {
+    margin-top: 20px;
+    text-align: right;
+    font-size: 0.9em;
+}
+
+.review-actions a {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s ease;
+}
+
+.review-actions a i {
+    margin-right: 5px;
+}
+
+.review-actions a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.review-actions a.delete-link {
+    color: #dc3545;
+}
+
+.review-actions a.delete-link:hover {
+     color: #c82333;
+}
+
+
+/* Estilos para a Paginação */
+.pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.step-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    padding: 10px 18px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.step-links a:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.step-links .current {
+     margin: 0 10px;
+     padding: 10px 18px;
+     font-weight: bold;
+     color: #555;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+     background-color: #eee;
+}
+
+/* ===============================
+   Footer Styles
+   =============================== */
+.site-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem 0;
+    margin-top: 50px;
+    font-size: 0.9em;
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* ===============================
+   Messages and Indicators
+   =============================== */
+/* Estilo para a mensagem "Nenhum review encontrado" */
+.no-reviews-message {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+.no-reviews-message i {
+     margin-right: 8px;
+     color: #777;
+}
+
+/* Garante que a área de conteúdo tenha estilo mesmo sem reviews */
+#reviews-container:has(.no-reviews-message) {
+    display: flex;
+    flex-direction: column; /* Para centralizar verticalmente */
+    align-items: center;
+    justify-content: center;
+    /* Você já tem min-height no #reviews-container, pode ajustar se necessário */
+    /* min-height: 100px; */ /* Ou o valor que já existe */
+}
+
+/* Estilo para o indicador de carregamento usado no JS */
+.loading-indicator {
+    text-align: center;
+    padding: 20px;
+}
+.loading-indicator i {
+    margin-right: 5px;
+    color: #007bff;
+}
+
+/* Estilo para a mensagem de erro AJAX */
+.error-message {
+    text-align: center;
+    color: red;
+    padding: 20px;
+    font-style: italic;
+}
+.error-message i {
+    margin-right: 5px;
+    color: red;
+}
+
+
+/* ===============================
+   Responsive Adjustments
+   =============================== */
+@media (max-width: 768px) {
+    /* Ajustes na seção de estatísticas */
+    .stats-grid {
+        grid-template-columns: 1fr; /* Empilha as colunas verticalmente */
+    }
+
+     /* Ajustes na área de interatividade */
+     .interactivity-area form {
+         gap: 15px; /* Ajusta o espaçamento */
+     }
+
+     .filter-sort-area {
+        flex-direction: column; /* Empilha tudo verticalmente */
+        align-items: stretch; /* Estica os itens */
+        gap: 15px;
+     }
+
+     .filter-options,
+     .sort-options {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+     }
+
+     .filter-sort-area label {
+         margin-bottom: 5px;
+     }
+
+     .filter-sort-area select,
+     .filter-sort-area .btn-secondary { /* Aplica 100% para selects E botão Aplicar */
+         width: 100%; /* CORRIGIDO: Antes era 1% */
+         min-width: auto; /* Remove largura mínima para permitir que se ajustem a 100% */
+         margin-left: 0; /* Remove qualquer margin-left: auto */
+     }
+
+
+    /* Ajustes nos cards de review */
+    .review-item {
+        /* Reduz padding horizontal em telas menores, mantendo o vertical */
+        padding: 20px 10px; /* Ajuste aqui: 20px vertical, 10px horizontal */
+    }
+
+    .review-header {
+        flex-direction: column;
+        gap: 10px;
+        /* O padding-bottom de 15px ainda está aqui */
+    }
+
+    .review-quality,
+    .review-difficulty {
+         justify-content: center; /* Centraliza quality/difficulty no cabeçalho empilhado */
+         /* O gap de 5px ainda está aqui */
+    }
+
+    .review-item {
+        /* padding: 20px; Este foi movido e modificado acima */
+    }
+
+    .review-description p {
+        /* Reduz padding horizontal na descrição em telas menores, mantendo o vertical */
+        padding: 15px 8px; /* Ajuste aqui: 15px vertical, 8px horizontal */
+        /* O border-left de 5px ainda está aqui */
+        /* O word-wrap: break-word já está aqui, o que é bom */
+    }
+
+    .review-details p {
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 3px;
+         /* O gap de 8px padrão é anulado por este de 3px na media query */
+    }
+
+    /* Adicional: Se os ícones nos detalhes estiverem deslocando, remover a margem */
+     .review-details p i {
+        margin-right: 0;
+        margin-left: 0;
+     }
+}

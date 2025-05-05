@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>ProfReview</title>
+
+    <link rel="stylesheet" href="{% static 'reviews/reviews.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/professors-carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/top-rank.css' %}">
+    <link rel="stylesheet" href="{% static 'reviews/top-rank-image.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    {% include 'reviews/top-bar.html' %}
+
+    <div class="content">
+        
+        <div class="container-carousel">
+            <div class="title-carousel">
+                <h1>Últimas avaliações</h1>
+            </div>
+            {% include 'reviews/professors-carousel.html' %}
+        </div>
+
+
+        <div class="container-top-rank">
+            <div class="top-rank-image">
+                <h1>Fique de olho</h1>
+                <img src="{% static 'reviews/all_reviews_image.png' %}" alt="Fique de olho" />
+            </div>
+            {% include 'reviews/top-rank.html' %}
+        </div>
+
+
+    </div>
+
+    <script src="{% static 'reviews/professor-carousel.js' %}"></script>
+</body>
+</html>

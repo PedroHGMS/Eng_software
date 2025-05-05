@@ -1,0 +1,17 @@
+{% load static %}
+<header class="site-header">
+    <div class="container">
+        <h1>ProfReview - Review de Professores</h1>
+        <nav>
+            <ul class="nav-list">
+                {# Link existente para Todos os Professores #}
+                <li><a href="{% url 'universities:all_professors' %}" class="nav-link"><i class="fas fa-home"></i> Todos os Professores</a></li>
+
+                {# NOVOS LINKS (PLACEHOLDERS) #}
+                <li><a href="#" class="nav-link"><i class="fas fa-search"></i> Buscar</a></li>
+                <li><a href="#" class="nav-link"><i class="fas fa-user"></i> Usuário</a></li>
+                {# FIM DOS NOVOS LINKS #}
+            </ul>
+        </nav>
+    </div>
+</header>

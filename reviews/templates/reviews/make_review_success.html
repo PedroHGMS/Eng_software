@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sucesso - Review Enviada</title>
+    
+    <link rel="stylesheet" href="{% static 'reviews/make_review_success.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+    {% include 'reviews/top-bar.html' %}
+
+    <main class="container">
+        <section class="success-message">
+            <h1 class="success-title">
+                Sua review foi enviada com sucesso!<i class="fa fa-check-circle"></i>
+            </h1>
+            <p class="success-subtext">
+                Obrigado por compartilhar sua review. Ela é muito importante para direcionar as escolhas de outros alunos!
+            </p>
+
+            <a href="{% url 'reviews:make_review' %}" class="btn-home">
+                Fazer uma outra Review
+            </a>
+        </section>
+    </main>
+</body>
+</html>

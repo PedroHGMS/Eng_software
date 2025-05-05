@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews do Professor {{ professor.name }}</title>
+    <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    {% include 'reviews/top-bar.html' %}
+
+    <main class="container content-area" style="margin-top: 60px;"> <!-- Added margin-top here -->
+        {# Informações do Professor (Nome e Universidade) #}
+        {% include 'reviews/includes/professor_info.html' %}
+
+        {# Seção de Estatísticas #}
+        {% include 'reviews/includes/statistics.html' %}
+
+        {# Seção de Interatividade (Filtros, Ordenação, Botão Adicionar) #}
+        {% include 'reviews/includes/interactivity.html' %}
+
+        {# Seção de Reviews Individuais - ESTE É ONDE O CONTEÚDO AJAX VAI #}
+        <section class="reviews-list">
+             <h3>Reviews Individuais</h3>
+             {# Este é o container que será atualizado pelo JavaScript AJAX #}
+             <div id="reviews-container">
+                 {# O conteúdo inicial desta div é renderizado pelo Django na primeira carga #}
+                 {# E será substituído pelas respostas AJAX subsequentes renderizadas por review_list.html #}
+                 {# Portanto, na carga inicial, incluímos o conteúdo do review_list.html aqui #}
+                 {% include 'reviews/includes/review_list.html' with reviews=reviews page_obj=page_obj is_paginated=is_paginated current_order=current_order current_disciplina=current_disciplina current_periodo=current_periodo user=user %}
+             </div> {# Fim do container #reviews-container #}
+        </section>
+         {# --- Fim Seção de Reviews Individuais --- #}
+    </main>
+
+    {% include 'reviews/includes/footer.html' %}
+
+    {# Link para o arquivo JavaScript #}
+    {# Este script fará as requisições AJAX para filtro/ordenação e paginação #}
+    <script src="{% static 'reviews/script.js' %}"></script>
+    {# Opcional: Bloco para adicionar extra body scripts se precisar #}
+    {% block extra_body_scripts %}{% endblock %}
+</body>
+</html>

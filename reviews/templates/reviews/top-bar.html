@@ -1,0 +1,45 @@
+{% load static %}
+
+{# Link to the specific CSS for this top bar component #}
+<link rel="stylesheet" href="{% static 'reviews/top-bar.css' %}">
+
+
+<div class="top-bar">
+
+    <!-- Logo Section -->
+    <div class="top-bar-section logo">
+        <a href="{% url 'reviews:all_reviews' %}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-building-columns"></i>
+            <span class="logo-text">ProfReview</span>
+        </a>
+    </div>
+
+    <!-- Search Bar Section -->
+    <div class="top-bar-section search-section">
+
+        <form action="{% url 'reviews:search_reviews' %}" method="get" class="top-search-form">
+            <input type="text" name="q" placeholder="Busque por professores, disciplinas e universidades..." value="{{ request.GET.q }}" class="top-search-input">
+            <button type="submit" class="top-search-button">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Make Review Button Section -->
+    <div class="top-bar-section make-review-button">
+        <a href="{% url 'reviews:make_review' %}" title="Add New">
+            <i class="fa-solid fa-plus"></i> 
+        </a>
+    </div>
+
+    <!-- Logout Section -->
+    <div class="top-bar-section logout-button">
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" title="Logout" style="background: none; border: none; cursor: pointer;">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+        </form>
+    </div>
+
+</div>

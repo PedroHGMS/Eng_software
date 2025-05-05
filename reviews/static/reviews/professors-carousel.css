@@ -1,0 +1,185 @@
+.carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+.carousel-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    height: 170px;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    scroll-padding-left: 20px;
+    height: 100%;
+}
+
+.professor-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 400px;
+    max-width: 700px;
+    height: 100%;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 13px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+a.professor-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 400px;
+    max-width: 700px;
+    height: 100%;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 13px 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.professor-card:hover {
+    border: 1px solid #aaa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100%;
+}
+
+.card-left span:first-child {
+    color: #444;
+    font-weight: bold;
+}
+
+.card-left span:last-child {
+    font-weight: normal;
+    color: #555;
+    font-size: 11px;
+}
+
+.rating-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 75px;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000;
+    margin:5px 0px;
+}
+
+.bg-fraca {
+    background-color: #e78668;
+}
+
+/* Notas entre 2 e 3 */
+.bg-media {
+    background-color: #f6fa8e;
+}
+
+/* Notas entre 3 e 5 */
+.bg-alta {
+    background-color: #C7F5C0; /* verde pastel */
+}
+
+.card-divider {
+    width: 1px;
+    height: 75%;
+    background-color: #edebeb;
+    margin: 0 16px;
+    align-self: center;
+}
+
+.card-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+}
+
+.card-right h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 14px;
+    color: #111;
+}
+
+.card-right h2 {
+    font-size: 15px;
+    font-weight: normal;
+    margin-bottom: 6px;
+    color: #424242;
+}
+
+.card-right h1 {
+    font-size: 14px;
+    font-weight: lighter;
+    margin-bottom: 5px;
+    color: #424242;
+}
+
+.card-right p {
+    font-size: 14px;
+    /* margin: 2px 0; */
+    color: #424242;
+}
+
+.card-right p:nth-of-type(4),
+.card-right p:nth-of-type(5) {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.carousel-button {
+    background-color: transparent;
+    color: #444;
+    border: none;
+    font-size: 24px;
+    padding: 8px 12px;
+    cursor: pointer;
+    z-index: 2;
+    transition: color 0.2s;
+}
+
+.carousel-button:hover {
+    color: #111;
+}
+
+.carousel-button.left {
+    margin-right: 0px;
+}
+
+.carousel-button.right {
+    margin-left: 0px;
+}
+
+

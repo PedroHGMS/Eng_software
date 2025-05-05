@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Django</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'reviews/make_review.css' %}">
+</head>
+
+<body>
+
+     <!-- Top Bar Include -->
+    {% include 'reviews/top-bar.html' %}
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content-wrapper">
+        <!-- Header Section -->
+        <header>
+            <h1>Formulário de Avaliação</h1>
+        </header>
+
+        <!-- Main Form Section -->
+        <main class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <h2>Compartilhe sua Avaliação</h2>
+                
+                <!-- Render the Django Form -->
+                <div class="form-fields">
+                    {{ form.as_p }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <input type="submit" value="Enviar" class="submit-btn">
+                </div>
+            </form>
+        </main>
+    </div>
+</body>
+
+</html>

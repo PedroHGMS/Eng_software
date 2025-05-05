@@ -1,13 +1,17 @@
-from django.shortcuts import render
 from django.db.models import Avg, Count, Case, When, BooleanField, Value as V
-from .models import Review
 from universities.models import Professor, Universidade, Disciplina
-from django.http import HttpResponse
 from django.db.models import Q
-from django.contrib.auth import logout
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
+from django.db.models import Avg, Count
+from django.db.models import Q
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from .models import Review
+from math import floor, ceil
 
-
+@login_required
 def all_reviews(request):
     professors = Professor.objects.annotate(
         avg_rate=Avg("review__qualidade"),
@@ -16,14 +20,14 @@ def all_reviews(request):
     ).filter(total_reviews__gt=0).order_by("?")
 
     top_disciplinas = Disciplina.objects.annotate(
-    qualidade_media=Avg("review__qualidade"),
-    total_avaliacoes=Count("review")
-    ).filter(total_avaliacoes__gt=0).order_by("-qualidade_media")[:5]
+    avg_quality=Avg("review__qualidade"),
+    total_reviews=Count("review")
+    ).filter(total_reviews__gt=0).order_by("-avg_quality")[:5]
 
     top_universidades = Universidade.objects.annotate(
-        qualidade_media=Avg("professor__review__qualidade"),
-        total_avaliacoes=Count("professor__review")
-    ).filter(total_avaliacoes__gt=0).order_by("-qualidade_media")[:5]
+        avg_quality=Avg("professor__review__qualidade"),
+        total_reviews=Count("professor__review")
+    ).filter(total_reviews__gt=0).order_by("-avg_quality")[:5]
 
     return render(request, "reviews/reviews.html", {
         "professors": professors,
@@ -31,18 +35,7 @@ def all_reviews(request):
         "top_universidades": top_universidades,
     })
 
-
-
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator
-from django.db.models import Avg, Count
-from django.db.models import Q
-from django.template.loader import render_to_string
-from django.http import JsonResponse, HttpResponse # Import HttpResponse
-from .models import Review
-from universities.models import Professor, Disciplina
-from math import floor, ceil # Para calcular estrelas/círculos para médias
-
+@login_required
 def professor_reviews_view(request, professor_id):
     professor = get_object_or_404(Professor, id=professor_id)
 
@@ -185,6 +178,7 @@ def professor_reviews_view(request, professor_id):
         # Se não for requisição AJAX, renderiza a template completa
         return render(request, 'reviews/single_professor_reviews.html', context)
 
+@login_required
 def search_reviews(request):
     query = request.GET.get('q', '').strip()
     professors_found = Professor.objects.none()
@@ -206,7 +200,3 @@ def search_reviews(request):
         'professors_found': professors_found
     })
 
-
-def my_custom_logout_view(request):
-    logout(request)
-    return redirect('/')

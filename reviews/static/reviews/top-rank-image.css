@@ -3,4 +3,6 @@
     width: 350px;
     height: auto;
     max-width: 100%;
+    flex: 1;
+    text-align: center;
 }

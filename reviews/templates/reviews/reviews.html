@@ -19,23 +19,22 @@
 
     <div class="content">
         
-        <div class="title-carousel">
-            <h1>Últimas avaliações</h1>
+        <div class="container-carousel">
+            <div class="title-carousel">
+                <h1>Últimas avaliações</h1>
+            </div>
+            {% include 'reviews/professors-carousel.html' %}
         </div>
 
-        <!-- Removed the second search bar that was originally here -->
-
-        {% include 'reviews/professors-carousel.html' %}
 
         <div class="container-top-rank">
             <div class="top-rank-image">
                 <h1>Fique de olho</h1>
                 <img src="{% static 'reviews/all_reviews_image.png' %}" alt="Fique de olho" />
             </div>
+            {% include 'reviews/top-rank.html' %}
         </div>
 
-
-        {% include 'reviews/top-rank.html' %}
 
     </div>
 

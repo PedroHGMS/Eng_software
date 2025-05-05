@@ -1,8 +1,17 @@
-.top-rank-section {
+.container-top-rank {
     display: flex;
-    gap: 30px;
-    margin-top: 40px;
+    flex-direction: row;
+    gap: 40px;
+    align-items: flex-start;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.top-rank-section {
     align-items: center;
+    flex: 2;
+    padding-right: 40px;
+    width: 100%;
 }
 
 .top-ranks-container {
@@ -15,7 +24,7 @@
 .top-rank {
     flex: 1;
     background-color: #fdfdfd;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -33,9 +42,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #eaeaea;
+    background-color: #f7f7f7;
     margin-bottom: 8px;
-    padding: 8px 12px;
+    padding: 10px 12px;
     border-radius: 6px;
     font-size: 14px;
     font-weight: bold;
@@ -48,9 +57,24 @@
 }
 
 .rank-score {
-    background-color: #fff;
     border-radius: 4px;
     padding: 2px 8px;
     font-size: 13px;
     font-weight: bold;
+}
+
+/* Dinâmico por nota */
+.bg-fraca {
+    background-color: #e78668;
+    color: #fff;
+}
+
+.bg-media {
+    background-color: #f6fa8e;
+    color: #000;
+}
+
+.bg-alta {
+    background-color: #C7F5C0;
+    color: #000;
 }

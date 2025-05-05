@@ -1,4 +1,4 @@
-from django.db.models import Avg, Count, Value as Q
+from django.db.models import Avg, Count, Q
 
 from universities.models import Professor, Universidade, Disciplina
 from .forms import ReviewForm

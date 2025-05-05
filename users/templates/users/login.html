@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ProfReview</title>
+    <link rel="stylesheet" href="{% static 'users/login.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <h3>ProfReview</h3>
+        <h2>Entrar</h2>
+
+        <form method="POST" action="/login/">
+            {% csrf_token %}
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="senha">Senha</label>
+            <input type="password" id="senha" name="senha" required>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="register-link">
+            <a href="/cadastro/">Criar uma conta</a>
+        </div>
+    </div>
+
+    <div class="presentation">
+        <div class="presentation-block">
+            <img src="{% static 'users/anonimous.png' %}" alt="Anônimo">
+            <p>Avalie disciplinas e professores anonimamente</p>
+        </div>
+
+        <div class="presentation-block reverse">
+            <p>Tenha mais previsibilidade sobre o seu semestre</p>
+            <img src="{% static 'users/previsibility.png' %}" alt="Previsibilidade">
+        </div>
+
+        <div class="presentation-block">
+            <img src="{% static 'users/planning.png' %}" alt="Planejamento">
+            <p>Escolha melhores disciplinas para cursar</p>
+        </div>
+    </div>
+</body>
+</html>

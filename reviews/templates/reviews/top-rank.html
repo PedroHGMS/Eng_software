@@ -2,24 +2,34 @@
 <div class="top-rank-section">
     <div class="top-ranks-container">
         <div class="top-rank">
-            <h3>Top 5 Disciplinas</h3>
+            <h3>Rank de disciplinas</h3>
             <ul>
                 {% for disciplina in top_disciplinas %}
                     <li class="rank-item">
                         <span class="rank-name">{{ disciplina.nome }}</span>
-                        <span class="rank-score">{{ disciplina.qualidade_media|floatformat:1 }}</span>
+                        <span class="rank-score 
+                            {% if disciplina.avg_quality < 2 %}bg-fraca
+                            {% elif disciplina.avg_quality <= 3 %}bg-media
+                            {% else %}bg-alta{% endif %}">
+                            {{ disciplina.avg_quality|floatformat:1 }}
+                        </span>
                     </li>
                 {% endfor %}
             </ul>
         </div>
 
         <div class="top-rank">
-            <h3>Top 5 Universidades</h3>
+            <h3>Rank de Universidades</h3>
             <ul>
                 {% for uni in top_universidades %}
                     <li class="rank-item">
                         <span class="rank-name">{{ uni.nome }}</span>
-                        <span class="rank-score">{{ uni.qualidade_media|floatformat:1 }}</span>
+                        <span class="rank-score 
+                            {% if uni.avg_quality < 2 %}bg-fraca
+                            {% elif uni.avg_quality <= 3 %}bg-media
+                            {% else %}bg-alta{% endif %}">
+                            {{ uni.avg_quality|floatformat:1 }}
+                        </span>
                     </li>
                 {% endfor %}
             </ul>

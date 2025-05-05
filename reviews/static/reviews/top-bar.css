@@ -12,6 +12,7 @@
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     box-sizing: border-box; /* Include padding in width */
+    font-family: 'Montserrat', sans-serif;
 }
 
 /* REMOVED flex: 1 from here */
@@ -119,4 +120,9 @@
 
 .logout-button i:hover {
      color: #ccc; /* Optional hover effect */
+}
+
+.top-bar-section.make-review-button a i {
+    color: white;
+    font-size: 24px; /* Adjust the icon size if needed */
 }

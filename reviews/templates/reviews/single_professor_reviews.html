@@ -6,15 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews do Professor {{ professor.name }}</title>
     <link rel="stylesheet" href="{% static 'reviews/style.css' %}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    {# Opcional: Bloco para adicionar extra head content se precisar em templates que herdam #}
     {% block extra_head %}{% endblock %}
 </head>
 <body>
     {% include 'reviews/top-bar.html' %}
 
-    <main class="container content-area">
+    <main class="container content-area" style="margin-top: 60px;"> <!-- Added margin-top here -->
         {# Informações do Professor (Nome e Universidade) #}
         {% include 'reviews/includes/professor_info.html' %}
 

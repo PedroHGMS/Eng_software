@@ -10,4 +10,6 @@ urlpatterns = [
     path("professor_reviews/<int:professor_id>/", views.professor_reviews_view, name="professor_reviews"),
     path('search/', views.search_reviews, name='search_reviews'),
     path('logout/', views.my_custom_logout_view, name='logout'),
+    path('make_review/', views.MakeReview, name='make_review'),
+    path('make_review/success/', views.MakeReviewSucess, name='success'),
 ]

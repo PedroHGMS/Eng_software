@@ -1,0 +1,50 @@
+/* Center the success message in the viewport */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+}
+
+/* success-message styles */
+.success-message {
+    font-family: Arial, sans-serif;
+    background-color: #f4f8fb;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 600px; /* Optional: Limit max width */
+    width: 100%;
+    text-align: center; /* Center text inside the success-message */
+}
+
+.success-message .message-icon {
+    font-size: 50px;
+    color: #4CAF50;  /* Green check-circle */
+    margin-bottom: 20px;
+}
+
+.success-message .success-title {
+    font-family: Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.success-message .success-subtext {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    color: #666;
+    line-height: 1.6;
+    margin-top: 0;
+}
+
+/* Optional: Add hover effect to the check-circle icon */
+.success-message .message-icon:hover {
+    font-family: Arial, sans-serif;
+    color: #388e3c;  /* Slightly darker green */
+    transform: scale(1.1);
+    transition: all 0.3s ease-in-out;
+}
